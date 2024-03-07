@@ -1,2 +1,2 @@
 # web-game
-CMSC 447 Web Game autorunner project
+CMSC 447 Web Game autorunner like project
