@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
+</head>
+<body>
+
+    <script>
+    class Example extends Phaser.Scene
+    {
+        constructor()
+        {
+            super('game');
+        }
+        preload()
+        {
+            this.load.spritesheet('player', 'assets/running2.png', { frameWidth: 32, frameHeight: 32 });
+            this.load.image('sky', 'assets/back.png');
+            this.load.image('platform', 'assets/platform.png');
+
+        }
+        create()
+        {
+            this.add.image(300,300,'sky');
+            platform = this.physics.add.staticGroup();
+            player = this.physics.add.sprite(100, 250, 'player');
+            this.physics.add.collider(player, platform);
+            platform.create(320, 370, 'platform').setScale(2).refreshBody();
+            platform.create(720, 370, 'platform').setScale(2).refreshBody();
+            platform.create(1120, 370, 'platform').setScale(2).refreshBody();
+            //player.setCollideWorldBounds(true);
+            player.body.setGravityY(800);
+            camera = this.cameras.main;
+            camera.setBounds(0,0,1400,360)
+            camera.startFollow(player);
+            //camera.setLerp(0,0);
+            this.anims.create({
+                key: "run",
+                frames: this.anims.generateFrameNumbers('player', {start: 0, end: 0}),
+                frameRate: 10,
+                repeat: -1
+            });
+            //cursors = this.input.keyboard.createCursorKeys();
+            player.setVelocityX(160);
+            this.physics.world.setBounds(0, 0, 1400, 360);
+            dash = this.input.keyboard.addKey('right', true, false);
+            jump = this.input.keyboard.addKey('space', true, false); 
+
+        }
+        update()
+        {
+            if(dashStart){
+                if(timer < 10){
+                    timer = timer + 1;
+                    player.setVelocityY(0)
+                }
+                else{
+                    dashStart = false;
+                    player.setVelocityX(160);
+                    player.body.setGravityY(800);
+                    timer = 0;
+                }
+            }
+            else{
+                player.anims.play('run', true);
+                if (jump.isDown && player.body.touching.down)
+                {
+                    player.setVelocityY(-330);
+                }
+                else if(dash.isDown && !player.body.touching.down && dashRefresh){
+                    player.setVelocityY(0);
+                    player.setVelocityX(500);
+                    player.setGravityY(0);
+                    dashStart = true;
+                    dashRefresh = false;
+                }
+                if(player.body.touching.down){
+                    dashRefresh = true;
+                }
+            }
+        }
+    }
+    var timer = 0;
+    var dashRefresh = true;
+    var dashStart = false;
+    var player;
+    var platform;
+    var camera;
+    var cursors;
+    var jump;
+    var dash;
+
+    const config = {
+        type: Phaser.AUTO,
+        width: 640,
+        height: 360,
+        scene: Example,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 200 }
+            }
+        }
+    };
+
+    const game = new Phaser.Game(config);
+    </script>
+
+</body>
+</html>
