@@ -10,10 +10,14 @@ class level1 extends Phaser.Scene
         this.load.image('sky', 'assets/back.png');
         this.load.image('platform', 'assets/platform.png');
         this.load.audio("music", ["assets/level-wip1.wav"]);
+        this.load.plugin('rexclockplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexclockplugin.min.js', true);
 
     }
     create()
     {
+        clock = this.plugins.get('rexclockplugin').add(this, {timeScale: 1});
+        clock.start();
+        elapsedTimeText = this.add.text(200, 200, 'dsdfsdf', { fill: '#0f0' });
         music = this.sound.add("music", { loop: true });
         music.play();
         this.add.image(300,300,'sky');
@@ -49,11 +53,15 @@ class level1 extends Phaser.Scene
         player.setVelocityX(160);
         this.physics.world.setBounds(0, 0, 1400, 360);
         dash = this.input.keyboard.addKey('right', true, false);
-        jump = this.input.keyboard.addKey('space', true, false); 
+        jump = this.input.keyboard.addKey('space', true, false);
+        clock = this.plugins.get('rexclockplugin').add(this, {timeScale: 1});
+        clock.start();
+        elapsedTimeText = this.add.text(30, 20, '0', { fill: '#0f0' }).setScrollFactor(0);
 
     }
     update()
     {
+        elapsedTimeText.setText(Math.floor(clock.now / 1000));
         if(player.y > 360){
             music.stop();
             this.scene.restart();
@@ -90,6 +98,7 @@ class level1 extends Phaser.Scene
     }
 }
 var timer = 0;
+var clock;
 var dashRefresh = true;
 var dashStart = false;
 var player;
@@ -99,3 +108,4 @@ var cursors;
 var jump;
 var dash;
 var music;
+var elapsedTimeText;

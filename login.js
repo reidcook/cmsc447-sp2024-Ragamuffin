@@ -1,8 +1,8 @@
-class title extends Phaser.Scene
+class login extends Phaser.Scene
 {
     constructor()
     {
-        super("title")
+        super("login")
     }
     preload()
     {
@@ -11,7 +11,7 @@ class title extends Phaser.Scene
     create()
     {
         this.add.image(300,300,'sky');
-        this.add.text(220, 160, 'Interstellar Sprint', { fill: '#0f0' });
+        this.add.text(220, 50, 'Interstellar Sprint', { fill: '#0f0' });
         const startButton = this.add.text(290, 210, 'Start', {fill: '#0f0'})
         startButton.setInteractive();
         startButton.on('pointerdown', () => { this.startGame() });
