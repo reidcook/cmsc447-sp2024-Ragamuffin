@@ -1,18 +1,15 @@
-import Phaser from "phaser";
-
-import Game from "./game";
-
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 640,
+    height: 360,
+    scene: [title, level1],
     physics: {
         default: 'arcade',
-        arcade:{
-            gravity: {y: 200}
+        arcade: {
+            gravity: { y: 200 }
         }
-    },
-    scene: [Game]
-}
-
-export default new Phaser.Game(config)
+    }
+};
+  
+  
+  var game = new Phaser.Game(config);
