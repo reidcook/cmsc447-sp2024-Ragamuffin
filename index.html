@@ -17,26 +17,39 @@
             this.load.spritesheet('player', 'assets/running2.png', { frameWidth: 32, frameHeight: 32 });
             this.load.image('sky', 'assets/back.png');
             this.load.image('platform', 'assets/platform.png');
+            this.load.audio("music", ["level-wip1.wav"]);
 
         }
         create()
         {
+            music = this.sound.add("music", { loop: true });
+            music.play();
             this.add.image(300,300,'sky');
+            this.add.image(2048,300,'sky');
+            this.add.image(4096,300,'sky');
+            this.add.image(8192,300,'sky');
             platform = this.physics.add.staticGroup();
             player = this.physics.add.sprite(100, 250, 'player');
             this.physics.add.collider(player, platform);
-            platform.create(320, 370, 'platform').setScale(2).refreshBody();
-            platform.create(720, 370, 'platform').setScale(2).refreshBody();
-            platform.create(1120, 370, 'platform').setScale(2).refreshBody();
+            platform.create(200, 355, 'platform').setScale(1, 0.25).refreshBody();
+            platform.create(550, 355, 'platform').setScale(0.25, 0.25).refreshBody();
+            platform.create(750, 355, 'platform').setScale(0.25, 0.25).refreshBody();
+            platform.create(900, 335, 'platform').setScale(0.15, 0.25).refreshBody();
+            platform.create(1000, 315, 'platform').setScale(0.15, 0.25).refreshBody();
+            platform.create(1100, 295, 'platform').setScale(0.15, 0.25).refreshBody();
+            platform.create(1200, 275, 'platform').setScale(0.15, 0.25).refreshBody();
+            platform.create(1300, 255, 'platform').setScale(0.15, 0.25).refreshBody();
+            platform.create(1450, 355, 'platform').setScale(0.15, 0.25).refreshBody();
+
             //player.setCollideWorldBounds(true);
-            player.body.setGravityY(800);
+            player.body.setGravityY(900);
             camera = this.cameras.main;
-            camera.setBounds(0,0,1400,360)
+            camera.setBounds(0,0,5000,360)
             camera.startFollow(player);
             //camera.setLerp(0,0);
             this.anims.create({
                 key: "run",
-                frames: this.anims.generateFrameNumbers('player', {start: 0, end: 0}),
+                frames: this.anims.generateFrameNumbers('player', {start: 0, end: 3}),
                 frameRate: 10,
                 repeat: -1
             });
@@ -49,6 +62,10 @@
         }
         update()
         {
+            if(player.y > 360){
+                music.stop();
+                this.scene.restart();
+            }
             if(dashStart){
                 if(timer < 10){
                     timer = timer + 1;
@@ -57,7 +74,7 @@
                 else{
                     dashStart = false;
                     player.setVelocityX(160);
-                    player.body.setGravityY(800);
+                    player.body.setGravityY(900);
                     timer = 0;
                 }
             }
@@ -89,6 +106,7 @@
     var cursors;
     var jump;
     var dash;
+    var music;
 
     const config = {
         type: Phaser.AUTO,
