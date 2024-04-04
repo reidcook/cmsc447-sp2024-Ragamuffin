@@ -3,6 +3,10 @@ const config = {
     type: Phaser.AUTO,
     width: 640,
     height: 360,
+    dom: {
+        createContainer: true
+    },
+    parent: "game",
     scene: [title, level1],
     physics: {
         default: 'arcade',

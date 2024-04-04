@@ -18,6 +18,7 @@ class level1 extends Phaser.Scene {
     );
   }
   create() {
+    /*
     function spawnAsteroids() {
       var pX = player.x + 400;
       var pY = player.y - 100;
@@ -28,12 +29,14 @@ class level1 extends Phaser.Scene {
       asteroid.body.setAllowGravity(false);
       asteroid.refreshBody();
     }
+    */
 
+    /*
     function playerHit(player, asteroid) {
-      // Reset the scene (e.g., restart the current scene)
       music.stop();
       this.scene.restart();
     }
+    */
 
     clock = this.plugins.get("rexclockplugin").add(this, { timeScale: 1 });
     clock.start();
@@ -58,6 +61,7 @@ class level1 extends Phaser.Scene {
     platform.create(1200, 275, "platform").setScale(0.15, 0.25).refreshBody();
     platform.create(1300, 255, "platform").setScale(0.15, 0.25).refreshBody();
     platform.create(1450, 355, "platform").setScale(0.15, 0.25).refreshBody();
+    /*
     var asteroids = this.physics.add.group();
     this.timer = this.time.addEvent({
       delay: 5000,
@@ -67,6 +71,7 @@ class level1 extends Phaser.Scene {
     });
 
     this.physics.add.collider(player, asteroids, playerHit, null, this);
+    */
     //player.setCollideWorldBounds(true);
     player.body.setGravityY(900);
     camera = this.cameras.main;
