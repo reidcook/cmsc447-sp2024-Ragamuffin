@@ -3,7 +3,7 @@ class level1 extends Phaser.Scene {
     super("game");
   }
   preload() {
-    this.load.spritesheet("player", "assets/running2.png", {
+    this.load.spritesheet("player", "assets/playerSheet.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
@@ -80,10 +80,16 @@ class level1 extends Phaser.Scene {
     //camera.setLerp(0,0);
     this.anims.create({
       key: "run",
-      frames: this.anims.generateFrameNumbers("player", { start: 0, end: 3 }),
+      frames: this.anims.generateFrameNumbers("player", { start: 2, end: 5 }),
       frameRate: 10,
       repeat: -1,
     });
+    this.anims.create({
+        key: "dash",
+        frames: this.anims.generateFrameNumbers("player", { start: 0, end: 1 }),
+        frameRate: 25,
+        repeat: 2,
+      });
     //cursors = this.input.keyboard.createCursorKeys();
     player.setVelocityX(160);
     this.physics.world.setBounds(0, 0, 1400, 360);
@@ -91,6 +97,7 @@ class level1 extends Phaser.Scene {
     jump = this.input.keyboard.addKey("space", true, false);
     clock = this.plugins.get("rexclockplugin").add(this, { timeScale: 1 });
     clock.start();
+    player.anims.play("run", true);
     elapsedTimeText = this.add
       .text(30, 20, "0", { fill: "#0f0" })
       .setScrollFactor(0);
@@ -105,17 +112,23 @@ class level1 extends Phaser.Scene {
       if (timer < 10) {
         timer = timer + 1;
         player.setVelocityY(0);
-      } else {
+      } 
+      else {
         dashStart = false;
         player.setVelocityX(160);
         player.body.setGravityY(900);
         timer = 0;
       }
-    } else {
-      player.anims.play("run", true);
+    } 
+    else {
+      //player.anims.play("run", true);
       if (jump.isDown && player.body.touching.down) {
         player.setVelocityY(-330);
-      } else if (dash.isDown && !player.body.touching.down && dashRefresh) {
+      } 
+      else if (dash.isDown && !player.body.touching.down && dashRefresh) {
+        player.anims.play("dash").once('animationcomplete', () => {
+            player.anims.play("run");
+         });
         player.setVelocityY(0);
         player.setVelocityX(500);
         player.setGravityY(0);
