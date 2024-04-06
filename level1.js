@@ -7,7 +7,9 @@ class level1 extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
-    this.load.image("sky", "assets/back.png");
+    this.load.image("tiles", 'assets/moon-tileset.png');
+    this.load.tilemapTiledJSON('map','assets/Level1.json');
+    this.load.image("sky", "assets/background.png");
     this.load.image("platform", "assets/platform.png");
     this.load.image("asteroid", "assets/asteroid.png");
     this.load.audio("music", ["assets/level-wip1.wav"]);
@@ -43,24 +45,21 @@ class level1 extends Phaser.Scene {
     elapsedTimeText = this.add.text(200, 200, "dsdfsdf", { fill: "#0f0" });
     music = this.sound.add("music", { loop: true });
     music.play();
-    this.add.image(300, 300, "sky");
-    this.add.image(2048, 300, "sky");
-    this.add.image(4096, 300, "sky");
-    this.add.image(8192, 300, "sky");
+    this.add.image(320, 180, "sky");
+    this.add.image(640, 180, "sky");
+    this.add.image(960, 180, "sky");
+    this.add.image(1280, 180, "sky");
     platform = this.physics.add.staticGroup();
     player = this.physics.add.sprite(100, 250, "player");
 
     this.physics.add.collider(player, platform);
 
-    platform.create(200, 355, "platform").setScale(1, 0.25).refreshBody();
-    platform.create(550, 355, "platform").setScale(0.25, 0.25).refreshBody();
-    platform.create(750, 355, "platform").setScale(0.25, 0.25).refreshBody();
-    platform.create(900, 335, "platform").setScale(0.15, 0.25).refreshBody();
-    platform.create(1000, 315, "platform").setScale(0.15, 0.25).refreshBody();
-    platform.create(1100, 295, "platform").setScale(0.15, 0.25).refreshBody();
-    platform.create(1200, 275, "platform").setScale(0.15, 0.25).refreshBody();
-    platform.create(1300, 255, "platform").setScale(0.15, 0.25).refreshBody();
-    platform.create(1450, 355, "platform").setScale(0.15, 0.25).refreshBody();
+    const map = this.make.tilemap({key: 'map', tileWidth: 16, tileHeight: 16});
+    const tileset = map.addTilesetImage('moon-tileset', 'tiles');
+    const floor = map.createLayer("Ground", tileset, 0, 0);
+    floor.setCollisionBetween(0,39);
+    this.physics.add.collider(player, floor);
+    
     /*
     var asteroids = this.physics.add.group();
     this.timer = this.time.addEvent({
@@ -101,6 +100,7 @@ class level1 extends Phaser.Scene {
     elapsedTimeText = this.add
       .text(30, 20, "0", { fill: "#0f0" })
       .setScrollFactor(0);
+    
   }
   update() {
     elapsedTimeText.setText(Math.floor(clock.now / 1000));
@@ -122,10 +122,10 @@ class level1 extends Phaser.Scene {
     } 
     else {
       //player.anims.play("run", true);
-      if (jump.isDown && player.body.touching.down) {
+      if (jump.isDown && player.body.onFloor()) {
         player.setVelocityY(-330);
       } 
-      else if (dash.isDown && !player.body.touching.down && dashRefresh) {
+      else if (dash.isDown && !player.body.onFloor() && dashRefresh) {
         player.anims.play("dash").once('animationcomplete', () => {
             player.anims.play("run");
          });
@@ -135,7 +135,7 @@ class level1 extends Phaser.Scene {
         dashStart = true;
         dashRefresh = false;
       }
-      if (player.body.touching.down) {
+      if (player.body.onFloor()) {
         dashRefresh = true;
       }
     }
