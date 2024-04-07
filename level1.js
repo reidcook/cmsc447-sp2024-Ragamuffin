@@ -8,9 +8,8 @@ class level1 extends Phaser.Scene {
       frameHeight: 32,
     });
     this.load.image("tiles", 'assets/moon-tileset.png');
-    this.load.tilemapTiledJSON('map','assets/Level1.json');
-    this.load.image("sky", "assets/background.png");
-    this.load.image("platform", "assets/platform.png");
+    this.load.image("spiketiles", 'assets/spike.png');
+    this.load.tilemapTiledJSON('level1','assets/Level1REAL.json');
     this.load.image("asteroid", "assets/asteroid.png");
     this.load.audio("music", ["assets/level-wip1.wav"]);
     this.load.plugin(
@@ -33,12 +32,12 @@ class level1 extends Phaser.Scene {
     }
     */
 
-    /*
+    
     function playerHit(player, asteroid) {
       music.stop();
       this.scene.restart();
     }
-    */
+    
 
     clock = this.plugins.get("rexclockplugin").add(this, { timeScale: 1 });
     clock.start();
@@ -54,12 +53,26 @@ class level1 extends Phaser.Scene {
 
     this.physics.add.collider(player, platform);
 
-    const map = this.make.tilemap({key: 'map', tileWidth: 16, tileHeight: 16});
+    const map = this.make.tilemap({key: 'level1', tileWidth: 16, tileHeight: 16});
     const tileset = map.addTilesetImage('moon-tileset', 'tiles');
+    const tileset2 = map.addTilesetImage('spike-tileset', 'spiketiles');
     const floor = map.createLayer("Ground", tileset, 0, 0);
+    const spikes = map.createLayer("Spike", tileset2, 0, 0);
+    spikes.setCollision(1); // this adds new spike collision
     floor.setCollisionBetween(0,39);
+    spikes.setCollisionByExclusion([-1]);
     this.physics.add.collider(player, floor);
+    let partialCollisions = []; // here to
+    spikes.forEachTile((tile) => {
+      if(tile.index != -1){
+        console.log(tile)
+        let partialCollition = this.add.circle(tile.pixelX, tile.pixelY, -10)
+        this.physics.add.existing(partialCollition, true);
+        partialCollisions.push(partialCollition)
+      }
+    }); // here is new spike collision may remove
     
+    this.physics.add.collider(partialCollisions, player, playerHit, null, this);
     /*
     var asteroids = this.physics.add.group();
     this.timer = this.time.addEvent({
@@ -77,18 +90,6 @@ class level1 extends Phaser.Scene {
     camera.setBounds(0, 0, 5000, 360);
     camera.startFollow(player);
     //camera.setLerp(0,0);
-    this.anims.create({
-      key: "run",
-      frames: this.anims.generateFrameNumbers("player", { start: 2, end: 5 }),
-      frameRate: 10,
-      repeat: -1,
-    });
-    this.anims.create({
-        key: "dash",
-        frames: this.anims.generateFrameNumbers("player", { start: 0, end: 1 }),
-        frameRate: 25,
-        repeat: 2,
-      });
     //cursors = this.input.keyboard.createCursorKeys();
     player.setVelocityX(160);
     this.physics.world.setBounds(0, 0, 1400, 360);
@@ -108,6 +109,10 @@ class level1 extends Phaser.Scene {
       music.stop();
       this.scene.restart();
     }
+    if(player.body.velocity.x == 0){
+      music.stop();
+      this.scene.restart();
+    }
     if (dashStart) {
       if (timer < 10) {
         timer = timer + 1;
@@ -121,7 +126,6 @@ class level1 extends Phaser.Scene {
       }
     } 
     else {
-      //player.anims.play("run", true);
       if (jump.isDown && player.body.onFloor()) {
         player.setVelocityY(-330);
       } 
