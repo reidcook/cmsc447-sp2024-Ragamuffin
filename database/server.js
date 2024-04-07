@@ -15,6 +15,13 @@ const db = new sqlite3.Database('./myGameDB.db', sqlite3.OPEN_READWRITE, (err) =
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+});
+
 // Endpoint to add a new user
 app.post('/user', (req, res) => {
     const { username, password } = req.body;

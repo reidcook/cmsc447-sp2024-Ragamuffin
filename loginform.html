@@ -4,27 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width= , initial-scale=1.0">
     <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap');
 
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            line-height: 1.5;
+            min-height: 100vh;
+            background: #f3f3f3;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        .wrapper {
+            background-color: transparent;
+            border-radius: 15px;
+            box-shadow: 0 0 20px    rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            transition: transform 0.2s;
+            width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: "Bungee Inline", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            color: #3fbd43;
+        }
+
+        h3 {
+            color: white;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }       
+ 
+button {
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    background-color: #3fbd43;
+    width: 100%;
+    font-size: 16px;
+}
+ 
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    color: #2194ff;
+    text-decoration: none;
+}
+    </style>
 </head>
 <body>
 
     <div class="wrapper">
+        <h1>Interstellar Sprint</h1>
+        <h3>Enter Login</h3>
         <form action="">
-            <div class="my-box">
-            <input type="text"
-            placeholder= "Username" required>
-            </div>
             
-            <div class="my-box">
-                <input type="password"
-                placeholder="Password" required>
+            <input type="text"
+            id="username"
+            placeholder= "Username" required>
+
+            <input type="password"
+            id="password"
+            placeholder="Password" required>
+            
+            <div class="btn">
+                <button type="submit">
+                Submit
+                </button>
             </div>
+        </form>
+        <p>
+            <a href="#">
+            Create an account
+            </a>
+        </p>
+    </div>
     
-        </div>
-    
-
-
-
-    </form>
 </body>
 </html>

@@ -6,8 +6,8 @@ const config = {
     dom: {
         createContainer: true
     },
-    parent: "game",
-    scene: [title, level1],
+    parent: "phaser-container",
+    scene: [login, title, level1],
     physics: {
         default: 'arcade',
         arcade: {
