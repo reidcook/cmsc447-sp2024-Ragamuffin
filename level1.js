@@ -1,22 +1,9 @@
 class level1 extends Phaser.Scene {
   constructor() {
-    super("game");
+    super("level1");
   }
   preload() {
-    this.load.spritesheet("player", "assets/playerSheet.png", {
-      frameWidth: 32,
-      frameHeight: 32,
-    });
-    this.load.image("tiles", 'assets/moon-tileset.png');
-    this.load.image("spiketiles", 'assets/spike.png');
-    this.load.tilemapTiledJSON('level1','assets/Level1REAL.json');
-    this.load.image("asteroid", "assets/asteroid.png");
-    this.load.audio("music", ["assets/level-wip1.wav"]);
-    this.load.plugin(
-      "rexclockplugin",
-      "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexclockplugin.min.js",
-      true
-    );
+    
   }
   create() {
     /*
@@ -38,16 +25,18 @@ class level1 extends Phaser.Scene {
       this.scene.restart();
     }
     
-
-    clock = this.plugins.get("rexclockplugin").add(this, { timeScale: 1 });
-    clock.start();
-    elapsedTimeText = this.add.text(200, 200, "dsdfsdf", { fill: "#0f0" });
     music = this.sound.add("music", { loop: true });
     music.play();
     this.add.image(320, 180, "sky");
     this.add.image(640, 180, "sky");
     this.add.image(960, 180, "sky");
     this.add.image(1280, 180, "sky");
+    this.add.image(1600, 180, "sky");
+    this.add.image(1920, 180, "sky");
+    this.add.image(2240, 180, "sky");
+    this.add.image(2560, 180, "sky");
+    this.add.image(2880, 180, "sky");
+    this.add.image(3200, 180, "sky");
     platform = this.physics.add.staticGroup();
     player = this.physics.add.sprite(100, 250, "player");
 
@@ -65,7 +54,6 @@ class level1 extends Phaser.Scene {
     let partialCollisions = []; // here to
     spikes.forEachTile((tile) => {
       if(tile.index != -1){
-        console.log(tile)
         let partialCollition = this.add.circle(tile.pixelX, tile.pixelY, -10)
         this.physics.add.existing(partialCollition, true);
         partialCollisions.push(partialCollition)
