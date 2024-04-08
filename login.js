@@ -55,14 +55,18 @@ class login extends Phaser.Scene {
             const username = formElement.querySelector('#username').value;
             const password = formElement.querySelector('#password').value;
 
+            const createAcc = formElement.querySelector('#create-account').checked;
             
-            this.registerUser(username, password);
+            if (createAcc) {
+                this.registerUser(username, password);
+            } else {
+                this.registerUser(username, password);
+            }
         });
 
     }
 
     registerUser(username, password) {
-        
         fetch('http://localhost:3000/user', {
             method: 'POST',
             headers: {
@@ -77,7 +81,7 @@ class login extends Phaser.Scene {
         .then(data => {
             console.log(data);
             this.scene.start("levelselect");
-        })
+        });
         
     }
     

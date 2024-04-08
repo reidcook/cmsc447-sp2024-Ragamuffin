@@ -69,7 +69,7 @@ button {
     align-items: center;
 }
 
-a {
+label {
     color: #2194ff;
     text-decoration: none;
 }
@@ -89,7 +89,7 @@ a {
             <input type="password"
             id="password"
             placeholder="Password" required>
-            
+
             <div class="btn">
                 <button type="submit">
                 Submit
@@ -97,9 +97,10 @@ a {
             </div>
         </form>
         <p>
-            <a href="#">
-            Create an account
-            </a>
+            <div class="checkbox">
+                <input type="checkbox" id="create-account">
+                <label for="create-account" id="create">Create an account?</label>
+            </div>
         </p>
     </div>
     
