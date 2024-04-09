@@ -103,11 +103,8 @@ class level1 extends Phaser.Scene {
       .setScrollFactor(0);
     
   }
-<<<<<<< HEAD
-  update() {
-=======
+  
   update(time, delta) {
->>>>>>> 0dd52c1e0b1fed4dedfcd7121f1af17095de5f48
     elapsedTimeText.setText(Math.floor(clock.now / 1000));
     if (player.y > 360) {
       music.stop();
