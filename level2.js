@@ -72,7 +72,8 @@ class level2 extends Phaser.Scene {
         }); // here is new spike collision may remove
 
         this.physics.add.collider(player, portal, () => {
-            this.scene.start('levelselect');
+            this.scene.remove("level2");
+            this.scene.start("level3");
         });
 
         this.physics.add.collider(player, partialCollisions, playerHitSpike, null, this);

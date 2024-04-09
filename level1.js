@@ -67,7 +67,8 @@ class level1 extends Phaser.Scene {
     }); // here is new spike collision may remove
     
     this.physics.add.collider(player, portal, () => {
-      this.scene.start('levelselect');
+      this.scene.remove("level1");
+      this.scene.start("level2");
     });
 
 
@@ -103,6 +104,7 @@ class level1 extends Phaser.Scene {
     
   }
   update() {
+    console.log(1);
     elapsedTimeText.setText(Math.floor(clock.now / 1000));
     if (player.y > 360) {
       music.stop();
