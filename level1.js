@@ -38,6 +38,9 @@ class level1 extends Phaser.Scene {
     this.add.image(2880, 180, "sky");
     this.add.image(3200, 180, "sky");
     this.add.image(3520, 180, "sky");
+    this.add.image(3840, 180, "sky");
+    this.add.image(3520, 180, "sky");
+    this.add.image(4160, 180, "sky");
     platform = this.physics.add.staticGroup();
     player = this.physics.add.sprite(100, 250, "player");
 
