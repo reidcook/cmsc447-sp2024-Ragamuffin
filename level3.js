@@ -28,7 +28,7 @@ class level3 extends Phaser.Scene {
 
         this.physics.add.collider(player, platform);
 
-        const map = this.make.tilemap({ key: 'level2', tileWidth: 16, tileHeight: 16 });
+        const map = this.make.tilemap({ key: 'level3', tileWidth: 16, tileHeight: 16 });
         const tileset = map.addTilesetImage('moon-tileset', 'tiles');
         const tileset2 = map.addTilesetImage('spike-tileset', 'spiketiles');
         const floor = map.createLayer("Ground", tileset, 0, 0);
