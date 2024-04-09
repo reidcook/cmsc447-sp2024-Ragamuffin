@@ -1,6 +1,11 @@
 # web-game
 CMSC 447 Web Game autorunner like project
 
+First install all necessary packages
+npm install phaser
+npm i phaser3-rex-plugins
+npm install sqlite3
+
 To begin you need to initialialize and run the database server
 
 DataBase for Phaser Web Game
@@ -19,7 +24,5 @@ to start http server run the following in the directory with index.html
     python3 -m http.server 8000
     connect to http://localhost:8000/
 ensure phaser 3.80.1 installed
-ensure rex plugins are installed
 
-npm install phaser
-npm i phaser3-rex-plugins
+
