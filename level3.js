@@ -11,7 +11,7 @@ class level3 extends Phaser.Scene {
             this.scene.restart();
         }
 
-        music = this.sound.add("music", { loop: true });
+        music = this.sound.add("music3", { loop: true });
         music.play();
         this.add.image(320, 180, "sky");
         this.add.image(640, 180, "sky");
