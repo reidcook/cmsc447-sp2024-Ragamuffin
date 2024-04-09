@@ -1,24 +1,30 @@
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('sqlite3');
+const {open} = require('sqlite');
 const bcrypt = require('bcrypt');
 
-// Connect to the database
-const db = new sqlite3.Database('./myGameDB.db', (err) => {
-    if (err) {
-        return console.error(err.message);
-    }
-    console.log('Connected to the SQlite database.');
-});
+(async () => {
+    try {
+        // Open the database
+        const db = await open({
+            filename: './myGameDB.db',
+            driver: sqlite3.Database
+        });
+        console.log('Connected to the SQLite database.');
 
-// Create users table
-db.run(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL,
-    level INTEGER DEFAULT 1,
-    scores INTEGER DEFAULT 0
-)`, (err) => {
-    if (err) {
-        console.error('Error creating users table', err.message);
-        return;
+        // Create users table
+        await db.exec(`CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL,
+            level INTEGER DEFAULT 1,
+            scores INTEGER DEFAULT 0
+        )`);
+        console.log('Users table is ready.');
+
+        // Additional database setup operations can go here
+
+    } catch (err) {
+        console.error(err.message);
     }
-});
+})();
+
