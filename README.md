@@ -1,6 +1,6 @@
 # CMSC 447 Web Game Space Autorunner
 
-**First install all necessary packages, open a terminal in root directory to run:**
+**First install to install necessary packages, open a terminal in root directory then run:**
 
     npm install phaser
 
@@ -11,7 +11,7 @@
 
 
 
-**To start the database navigate to the database run:**
+**To start the database navigate to the database folder then run:**
 
     node initializeDb.js
 
