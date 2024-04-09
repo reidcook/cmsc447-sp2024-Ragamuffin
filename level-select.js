@@ -17,6 +17,8 @@ class levelselect extends Phaser.Scene
         level1Start.on('pointerdown', () => { this.startGame() });
         level2Start.setInteractive();
         level2Start.on('pointerdown', () => { this.startGame2() });
+        level3Start.setInteractive();
+        level3Start.on('pointerdown', () => { this.startGame3() });
         this.add.text(250, 25, 'Select Level', {fill: '#0f0'})
         this.add.text(80, 80, 'Level 1', {fill: '#0f0'})
         this.add.text(80, 300, 'Dash', {fill: '#0f0'})
@@ -34,5 +36,10 @@ class levelselect extends Phaser.Scene
     startGame2()
     {
         this.scene.start("level2");
+    }
+
+    startGame3()
+    {
+        this.scene.start("level3");
     }
 }
