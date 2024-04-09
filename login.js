@@ -6,6 +6,7 @@ class login extends Phaser.Scene {
     {
         this.load.html("login", "loginform.html");
         this.load.image('sky', 'assets/background.png');
+        this.load.image('portal', 'assets/portal.png');
         this.load.spritesheet("player", "assets/playerSheet.png", {
             frameWidth: 32,
             frameHeight: 32,

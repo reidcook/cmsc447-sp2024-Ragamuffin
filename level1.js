@@ -42,6 +42,7 @@ class level1 extends Phaser.Scene {
     this.add.image(3520, 180, "sky");
     this.add.image(4160, 180, "sky");
     platform = this.physics.add.staticGroup();
+    portal = this.physics.add.staticGroup();
     player = this.physics.add.sprite(100, 250, "player");
 
     this.physics.add.collider(player, platform);
@@ -54,6 +55,7 @@ class level1 extends Phaser.Scene {
     spikes.setCollision(1); // this adds new spike collision
     floor.setCollisionBetween(0,39);
     spikes.setCollisionByExclusion([-1]);
+    portal.create(3750, 120, 'portal').setScale(0.15, 0.25).refreshBody();
     this.physics.add.collider(player, floor);
     let partialCollisions = []; // here to
     spikes.forEachTile((tile) => {
@@ -64,6 +66,11 @@ class level1 extends Phaser.Scene {
       }
     }); // here is new spike collision may remove
     
+    this.physics.add.collider(player, portal, () => {
+      this.scene.start('levelselect');
+    });
+
+
     this.physics.add.collider(partialCollisions, player, playerHit, null, this);
     /*
     var asteroids = this.physics.add.group();
@@ -144,6 +151,7 @@ var dashRefresh = true;
 var dashStart = false;
 var player;
 var platform;
+var portal;
 var camera;
 var cursors;
 var jump;
