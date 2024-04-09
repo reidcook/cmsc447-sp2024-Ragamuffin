@@ -22,17 +22,22 @@ app.use((req, res, next) => {
     next();
 });
 
-// Endpoint to add a new user
-app.post('/user', (req, res) => {
+// Endpoint to add a new user with asynchronous password hashing
+app.post('/user', async (req, res) => {
     const { username, password } = req.body;
-    const hashPassword = bcrypt.hashSync(password, 10); // Hash the password
+    
+    try {
+        const hashPassword = await bcrypt.hash(password, 10); // Hash the password asynchronously
 
-    db.run(`INSERT INTO users (username, password) VALUES (?, ?)`, [username, hashPassword], function(err) {
-        if (err) {
-            return res.status(400).json({ error: err.message });
-        }
-        res.json({ message: 'User created', userId: this.lastID });
-    });
+        db.run(`INSERT INTO users (username, password) VALUES (?, ?)`, [username, hashPassword], function(err) {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+            res.json({ message: 'User created', userId: this.lastID });
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 // Endpoint to update a user's score

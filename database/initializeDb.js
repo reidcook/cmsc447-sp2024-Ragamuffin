@@ -21,8 +21,6 @@ const bcrypt = require('bcrypt');
         )`);
         console.log('Users table is ready.');
 
-        // Additional database setup operations can go here
-
     } catch (err) {
         console.error(err.message);
     }
