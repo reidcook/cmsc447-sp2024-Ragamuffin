@@ -21,6 +21,7 @@ class login extends Phaser.Scene {
         this.load.image("asteroid", "assets/asteroid.png");
         this.load.audio("music", ["assets/level-1.ogg"]);
         this.load.audio("music2", ["assets/level-2.ogg"]);
+        this.load.audio("music3", ["assets/level-3.mp3"]);
         this.load.plugin(
             "rexclockplugin",
             "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexclockplugin.min.js",
