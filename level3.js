@@ -72,7 +72,6 @@ class level3 extends Phaser.Scene {
 
     }
     update() {
-        console.log(3);
         elapsedTimeText.setText(Math.floor(clock.now / 1000));
         if (player.y > 360 || player.y < -280) {
             music.stop();
