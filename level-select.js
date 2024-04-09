@@ -15,6 +15,8 @@ class levelselect extends Phaser.Scene
         const level3Start = this.add.image(505,200,'dashUI').setScale(0.75,0.75);
         level1Start.setInteractive();
         level1Start.on('pointerdown', () => { this.startGame() });
+        level2Start.setInteractive();
+        level2Start.on('pointerdown', () => { this.startGame2() });
         this.add.text(250, 25, 'Select Level', {fill: '#0f0'})
         this.add.text(80, 80, 'Level 1', {fill: '#0f0'})
         this.add.text(80, 300, 'Dash', {fill: '#0f0'})
@@ -27,5 +29,10 @@ class levelselect extends Phaser.Scene
     startGame()
     {
         this.scene.start("level1");
+    }
+
+    startGame2()
+    {
+        this.scene.start("level2");
     }
 }
