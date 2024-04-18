@@ -1,6 +1,6 @@
 class level3 extends Phaser.Scene {
     constructor() {
-        super("level3");
+        super("a_level3");
     }
     preload() {
 
@@ -49,8 +49,9 @@ class level3 extends Phaser.Scene {
         }); // here is new spike collision may remove
 
         this.physics.add.collider(player, portal, () => {
-            this.scene.remove("level3");
-            this.scene.start("level1");
+            //this.scene.remove("level3");
+            //this.scene.start("level1");
+            this.scene.start("levelselect");
         });
 
         this.physics.add.collider(partialCollisions, player, playerHit, null, this);
@@ -73,6 +74,9 @@ class level3 extends Phaser.Scene {
     }
     update() {
         elapsedTimeText.setText(Math.floor(clock.now / 1000));
+        if(player.x > 3750){
+            this.scene.add("levelselect")
+        }
         if (player.y > 360 || player.y < -280) {
             music.stop();
             this.scene.restart();

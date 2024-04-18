@@ -35,11 +35,11 @@ class levelselect extends Phaser.Scene
 
     startGame2()
     {
-        this.scene.start("level2");
+        this.scene.start("the_level2");
     }
 
     startGame3()
     {
-        this.scene.start("level3");
+        this.scene.start("a_level3");
     }
 }

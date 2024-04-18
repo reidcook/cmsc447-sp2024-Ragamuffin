@@ -66,11 +66,13 @@ class level1 extends Phaser.Scene {
       }
     }); // here is new spike collision may remove
     
-    this.physics.add.collider(player, portal, () => {
-      this.scene.remove("level1");
-      this.scene.start("level2");
-    });
+    /*this.physics.add.collider(player, portal, () => {
+      //this.scene.remove("level1");
+      //this.scene.start("level2");
+      //this.scene.stop();
+      this.scene.start("levelselect");
 
+    });*/
 
     this.physics.add.collider(partialCollisions, player, playerHit, null, this);
     /*
@@ -105,10 +107,14 @@ class level1 extends Phaser.Scene {
   }
   
   update(time, delta) {
+    console.log("running level 1")
     elapsedTimeText.setText(Math.floor(clock.now / 1000));
     if (player.y > 360) {
       music.stop();
       this.scene.restart();
+    }
+    if (player.x > 3750){
+      this.scene.start("levelselect");
     }
     if(player.body.velocity.x == 0){
       music.stop();
