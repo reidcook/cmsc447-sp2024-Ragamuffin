@@ -2,6 +2,9 @@ class level2 extends Phaser.Scene {
     constructor() {
         super("level2");
     }
+    init(data){
+        this.color = data.color;
+    }
     preload() {
 
     }
@@ -109,11 +112,10 @@ class level2 extends Phaser.Scene {
 
     }
     update() {
-        console.log(player.x + " " + player.y)
         elapsedTimeText.setText(Math.floor(clock.now / 1000));
         if(player.x > 3750 && player.y < 150){
             music.stop();
-            this.scene.start("levelselect");
+            this.scene.start("levelselect", {color: this.color});
         }
         if (player.y > 360) {
             music.stop();

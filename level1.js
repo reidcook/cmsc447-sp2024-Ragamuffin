@@ -3,7 +3,7 @@ class level1 extends Phaser.Scene {
     super("level1");
   }
   init(data){
-    this.data = data.data;
+    this.color = data.color;
   }
   preload() {
     
@@ -96,7 +96,6 @@ class level1 extends Phaser.Scene {
   }
   
   update(time, delta) {
-    console.log("running level 1")
     elapsedTimeText.setText(Math.floor(clock.now / 1000));
     if (player.y > 360) {
       music.stop();
@@ -104,7 +103,7 @@ class level1 extends Phaser.Scene {
     }
     if (player.x > 3750){
       music.stop();
-      this.scene.start("levelselect");
+      this.scene.start("levelselect", {color: this.color});
     }
     if(player.body.velocity.x == 0){
       music.stop();

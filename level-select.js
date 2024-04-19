@@ -4,6 +4,12 @@ class levelselect extends Phaser.Scene
     {
         super("levelselect")
     }
+    init(data){
+        this.color = data.color;
+        // HERE GET THE TOTAL COINS FROM THE DB
+        // SET VALUE TO totalMoney
+        this.totalMoney = 100
+    }
     preload()
     {
     }
@@ -20,7 +26,7 @@ class levelselect extends Phaser.Scene
         level3Start.setInteractive();
         level3Start.on('pointerdown', () => { this.startGame3() });
         this.add.text(250, 25, 'Select Level', {fill: '#0f0'})
-        this.add.text(40, 25, 'Money: ', {fill: '#0f0'})
+        this.add.text(40, 25, 'Money: ' + this.totalMoney + " Coins", {fill: '#0f0'})
         const shopButton = this.add.text(550, 25, 'Shop', {fill: '#0f0'})
         this.add.text(80, 80, 'Level 1', {fill: '#0f0'})
         this.add.text(80, 300, 'Dash (\u2192)', {fill: '#0f0'})
@@ -35,19 +41,20 @@ class levelselect extends Phaser.Scene
 
     startGame()
     {
-        this.scene.start("level1", {data: 50});
+        this.scene.start("level1", {color: this.color});
     }
 
     startGame2()
     {
-        this.scene.start("level2");
+        this.scene.start("level2", {color: this.color});
     }
 
     startGame3()
     {
-        this.scene.start("level3");
+        this.scene.start("level3"), {color: this.color};
     }
     enterShop()
     {
+        this.scene.start("shop", {totalMoney: this.totalMoney});
     }
 }

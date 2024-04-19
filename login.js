@@ -91,7 +91,7 @@ class login extends Phaser.Scene {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            this.scene.start("levelselect");
+            this.scene.start("levelselect", {color: "red"});
         });
         
     }
