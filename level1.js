@@ -2,22 +2,23 @@ class level1 extends Phaser.Scene {
   constructor() {
     super("level1");
   }
+  init(data){
+    this.data = data.data;
+  }
   preload() {
     
   }
   create() {
-    /*
     function spawnAsteroids() {
-      var pX = player.x + 400;
+      /*var pX = player.x + 400;
       var pY = player.y - 100;
       var asteroid = asteroids.create(pX, pY, "asteroid");
       asteroid.setScale(0.05);
       asteroid.body.velocity.x = -40;
       asteroid.body.velocity.y = 0;
       asteroid.body.setAllowGravity(false);
-      asteroid.refreshBody();
+      asteroid.refreshBody();*/
     }
-    */
 
     
     function playerHit(player, asteroid) {
@@ -65,17 +66,9 @@ class level1 extends Phaser.Scene {
         partialCollisions.push(partialCollition)
       }
     }); // here is new spike collision may remove
-    
-    /*this.physics.add.collider(player, portal, () => {
-      //this.scene.remove("level1");
-      //this.scene.start("level2");
-      //this.scene.stop();
-      this.scene.start("levelselect");
-
-    });*/
 
     this.physics.add.collider(partialCollisions, player, playerHit, null, this);
-    /*
+
     var asteroids = this.physics.add.group();
     this.timer = this.time.addEvent({
       delay: 5000,
@@ -85,14 +78,10 @@ class level1 extends Phaser.Scene {
     });
 
     this.physics.add.collider(player, asteroids, playerHit, null, this);
-    */
-    //player.setCollideWorldBounds(true);
     player.body.setGravityY(900);
     camera = this.cameras.main;
     camera.setBounds(0, 0, 5000, 360);
     camera.startFollow(player);
-    //camera.setLerp(0,0);
-    //cursors = this.input.keyboard.createCursorKeys();
     player.setVelocityX(160);
     this.physics.world.setBounds(0, 0, 1400, 360);
     dash = this.input.keyboard.addKey("right", true, false);
@@ -114,6 +103,7 @@ class level1 extends Phaser.Scene {
       this.scene.restart();
     }
     if (player.x > 3750){
+      music.stop();
       this.scene.start("levelselect");
     }
     if(player.body.velocity.x == 0){

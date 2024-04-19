@@ -71,11 +71,11 @@ class level2 extends Phaser.Scene {
             }
         }); // here is new spike collision may remove
 
-        this.physics.add.collider(player, portal, () => {
+        /*this.physics.add.collider(player, portal, () => {
             //this.scene.remove("level2");
             //this.scene.start("level3");
             this.scene.start("levelselect");
-        });
+        });*/
 
         this.physics.add.collider(player, partialCollisions, playerHitSpike, null, this);
         /*
@@ -109,8 +109,10 @@ class level2 extends Phaser.Scene {
 
     }
     update() {
+        console.log(player.x + " " + player.y)
         elapsedTimeText.setText(Math.floor(clock.now / 1000));
-        if(player.x > 3750 && player.y < 100){
+        if(player.x > 3750 && player.y < 150){
+            music.stop();
             this.scene.start("levelselect");
         }
         if (player.y > 360) {
