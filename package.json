@@ -2,6 +2,7 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "express": "^4.19.1",
+    "express-validator": "^7.0.1",
     "phaser": "^3.80.1",
     "phaser3-rex-plugins": "^1.80.1",
     "sqlite": "^5.1.1",
