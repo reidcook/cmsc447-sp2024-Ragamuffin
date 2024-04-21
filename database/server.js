@@ -73,9 +73,9 @@ app.post('/user', async (req, res) => {
     const { username, password } = req.body;
     
     try {
-        const hashPassword = await bcrypt.hash(password, 10); // Hash the password asynchronously
-
-        db.run(`INSERT INTO users (username, password) VALUES (?, ?)`, [username, hashPassword], function(err) {
+        const hashPassword = await bcrypt.hash(password, 10);
+        db.run(`INSERT INTO users (username, password, level_1_score, level_2_score, level_3_score, total_score, star_count) VALUES (?, ?, ?, ?, ?, ?, ?)`, 
+               [username, hashPassword, 0, 0, 0, 0, 0], function(err) {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
@@ -88,25 +88,27 @@ app.post('/user', async (req, res) => {
 
 // Endpoint to update a user's score
 app.patch('/user/score', (req, res) => {
-    const { username, scores } = req.body;
+    const { username, level_1_score, level_2_score, level_3_score } = req.body;
+    const total_score = level_1_score + level_2_score + level_3_score;
 
-    db.run(`UPDATE users SET scores = ? WHERE username = ?`, [scores, username], function(err) {
+    db.run(`UPDATE users SET level_1_score = ?, level_2_score = ?, level_3_score = ?, total_score = ? WHERE username = ?`, 
+           [level_1_score, level_2_score, level_3_score, total_score, username], function(err) {
         if (err) {
             return res.status(400).json({ error: err.message });
         }
-        res.json({ message: 'Score updated', changes: this.changes });
+        res.json({ message: 'Scores updated', changes: this.changes });
     });
 });
 
-// Endpoint to retrieve leaderboard information
 app.get('/leaderboard', (req, res) => {
-    db.all(`SELECT username, scores FROM users ORDER BY scores DESC LIMIT 10`, [], (err, rows) => {
+    db.all(`SELECT username, total_score FROM users ORDER BY total_score DESC LIMIT 10`, [], (err, rows) => {
         if (err) {
             return res.status(400).json({ error: err.message });
         }
         res.json(rows);
     });
 });
+
 
 // Login endpoint
 app.post('/login', async (req, res) => {

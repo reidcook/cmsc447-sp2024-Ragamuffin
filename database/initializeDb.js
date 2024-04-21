@@ -18,7 +18,11 @@ const bcrypt = require('bcrypt');
             username TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
             level INTEGER DEFAULT 1,
-            scores INTEGER DEFAULT 0
+            level_1_score INTEGER DEFAULT 0,
+            level_2_score INTEGER DEFAULT 0,
+            level_3_score INTEGER DEFAULT 0,
+            total_score INTEGER DEFAULT 0,
+            star_count INTEGER DEFAULT 0
         )`);
         console.log('Users table is ready.');
 
