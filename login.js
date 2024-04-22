@@ -59,7 +59,12 @@ class login extends Phaser.Scene {
         
         const formElement = loginForm.node;
 
-        
+        this.errorText = this.add.text(225, 50, ' ', {
+        fill: '#ff0000',
+        fontSize: '16px',
+        fontFamily: 'Arial',
+        fontStyle: 'bold'});
+
         formElement.addEventListener('submit', (event) => {
             event.preventDefault(); 
 
@@ -67,11 +72,11 @@ class login extends Phaser.Scene {
             const password = formElement.querySelector('#password').value;
 
             const createAcc = formElement.querySelector('#create-account').checked;
-            
             if (createAcc) {
                 this.registerUser(username, password);
             } else {
-                this.registerUser(username, password);
+                
+                this.loginUser(username, password, this.errorText);
             }
         });
 
@@ -94,6 +99,33 @@ class login extends Phaser.Scene {
             this.scene.start("levelselect", {color: "red"});
         });
         
+    }
+
+    loginUser(username, password, errorText) {
+        fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Invalid username or password');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); 
+            this.scene.start("levelselect", { color: "red" });
+        })
+        .catch(error => {
+            console.error(error.message);
+            errorText.setText('Invalid login! Try Again');
+        });
     }
     
 }
