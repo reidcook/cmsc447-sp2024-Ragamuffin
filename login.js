@@ -83,6 +83,8 @@ class login extends Phaser.Scene {
     }
 
     registerUser(username, password) {
+        const errorText = this.errorText;
+    
         fetch('http://localhost:3000/user', {
             method: 'POST',
             headers: {
@@ -93,13 +95,22 @@ class login extends Phaser.Scene {
                 password: password
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.status === 400 ? 'Username already in use' : 'Server error');
+            }
+            return response.json();
+        })
         .then(data => {
             console.log(data);
-            this.scene.start("levelselect", {color: "red"});
+            this.scene.start("levelselect", { color: "red" });
+        })
+        .catch(error => {
+            console.error(error.message);
+            errorText.setText(error.message);
         });
-        
     }
+    
 
     loginUser(username, password, errorText) {
         fetch('http://localhost:3000/login', {
