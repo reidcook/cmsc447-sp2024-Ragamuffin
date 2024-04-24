@@ -23,7 +23,7 @@ class level1 extends Phaser.Scene {
     
     function playerHit(player, asteroid) {
       music.stop();
-      this.scene.restart();
+      this.scene.start("leaderboard1", {color: this.color});
     }
     
     music = this.sound.add("music", { loop: true });
@@ -99,15 +99,15 @@ class level1 extends Phaser.Scene {
     elapsedTimeText.setText(Math.floor(clock.now / 1000));
     if (player.y > 360) {
       music.stop();
-      this.scene.restart();
+      this.scene.start("leaderboard1", {color: this.color});
     }
     if (player.x > 3750){
       music.stop();
-      this.scene.start("levelselect", {color: this.color});
+      this.scene.start("leaderboard1", {color: this.color});
     }
     if(player.body.velocity.x == 0){
       music.stop();
-      this.scene.restart();
+      this.scene.start("leaderboard1", {color: this.color});
     }
     if (dashStart) {
       if (timer < 160) {
