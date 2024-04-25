@@ -59,11 +59,14 @@ class login extends Phaser.Scene {
         
         const formElement = loginForm.node;
 
-        this.errorText = this.add.text(225, 50, ' ', {
-        fill: '#ff0000',
-        fontSize: '16px',
-        fontFamily: 'Arial',
-        fontStyle: 'bold'});
+        this.errorText = this.add.text(this.scale.width / 2, 50, ' ', {
+            fill: '#ff0000',
+            fontSize: '16px',
+            fontFamily: 'Arial',
+            fontStyle: 'bold',
+            align: 'center' // Center-align the text
+        }).setOrigin(0.5, 0); // Set the origin to the middle of the text for horizontal centering
+        
 
         formElement.addEventListener('submit', (event) => {
             event.preventDefault(); 
@@ -71,15 +74,43 @@ class login extends Phaser.Scene {
             const username = formElement.querySelector('#username').value;
             const password = formElement.querySelector('#password').value;
 
-            const createAcc = formElement.querySelector('#create-account').checked;
-            if (createAcc) {
-                this.registerUser(username, password);
-            } else {
-                
-                this.loginUser(username, password, this.errorText);
+            if (this.validateCredentials(username, password)) {
+                const createAcc = formElement.querySelector('#create-account').checked;
+                if (createAcc) {
+                    this.registerUser(username, password);
+                } else {
+                    this.loginUser(username, password, this.errorText);
+                }
             }
         });
+    }
 
+    validateCredentials(username, password) {
+        if (username.length < 3) {
+            this.errorText.setText("Username must be at least 3 characters long.");
+            return false;
+        }
+        if (password.length < 8) {
+            this.errorText.setText("Password must be at least 8 characters long.");
+            return false;
+        }
+        if (!/[a-z]/.test(password)) {
+            this.errorText.setText("Password must contain at least one lowercase letter.");
+            return false;
+        }
+        if (!/[A-Z]/.test(password)) {
+            this.errorText.setText("Password must contain at least one uppercase letter.");
+            return false;
+        }
+        if (!/[0-9]/.test(password)) {
+            this.errorText.setText("Password must contain at least one number.");
+            return false;
+        }
+        if (!/[^a-zA-Z0-9]/.test(password)) {
+            this.errorText.setText("Password must contain at least one symbol.");
+            return false;
+        }
+        return true;
     }
 
     registerUser(username, password) {
