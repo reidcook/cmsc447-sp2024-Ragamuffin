@@ -66,7 +66,7 @@ app.get('/leaderboard', (req, res) => {
 
 // Endpoint to get level 1 scores
 app.get('/leaderboard/level1', (req, res) => {
-    db.all(`SELECT username, level_1_score FROM users ORDER BY level_1_score DESC LIMIT 10`, [], (err, rows) => {
+    db.all(`SELECT username, level_1_score FROM users ORDER BY level_1_score DESC LIMIT 5`, [], (err, rows) => {
         if (err) {
             return res.status(400).json({ error: err.message });
         }
@@ -74,6 +74,15 @@ app.get('/leaderboard/level1', (req, res) => {
     });
 });
 
+// Endpoint to get level 2 scores
+app.get('/leaderboard/level2', (req, res) => {
+    db.all(`SELECT username, level_2_score FROM users ORDER BY level_2_score DESC LIMIT 5`, [], (err, rows) => {
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
 
 
 // Login endpoint

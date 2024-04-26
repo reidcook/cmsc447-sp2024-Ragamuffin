@@ -32,7 +32,7 @@ class level2 extends Phaser.Scene {
             if (!isBouncing || spike.body.blocked.up)
             {
                 music.stop();
-                this.scene.restart();
+                this.scene.start("leaderboard2", {color: this.color});
             }
         }
 
@@ -115,15 +115,15 @@ class level2 extends Phaser.Scene {
         elapsedTimeText.setText(Math.floor(clock.now / 1000));
         if(player.x > 3750 && player.y < 150){
             music.stop();
-            this.scene.start("levelselect", {color: this.color});
+            this.scene.start("leaderboard2", {color: this.color});
         }
         if (player.y > 360) {
             music.stop();
-            this.scene.restart();
+            this.scene.start("leaderboard2", {color: this.color});
         }
         if (player.body.velocity.x == 0) {
             music.stop();
-            this.scene.restart();
+            this.scene.start("leaderboard2", {color: this.color});
         }
 
         if (jump.isDown && player.body.onFloor()) {

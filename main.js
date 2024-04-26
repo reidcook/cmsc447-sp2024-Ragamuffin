@@ -7,7 +7,7 @@ const config = {
         createContainer: true
     },
     parent: "game",
-    scene: [login, level1, level2, level3, levelselect, shop, leaderboard1],
+    scene: [login, level1, level2, level3, levelselect, shop, leaderboard1, leaderboard2],
     physics: {
         default: 'arcade',
         arcade: {
