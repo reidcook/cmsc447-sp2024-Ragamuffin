@@ -89,10 +89,9 @@ class level3 extends Phaser.Scene {
         flip = this.input.keyboard.addKey("up", true, false); // Add flip key
         clock = this.time.addEvent({ delay: 500, callback: () => { canFlip = true; }, callbackScope: this, loop: true }); // Add timer for cooldown
         player.anims.play("run"+this.color, true);
-        elapsedTimeText = this.add
+        scoreText = this.add
             .text(30, 20, "0", { fill: "#0f0" })
             .setScrollFactor(0);
-
     }
 
     collectStar(player, star) {

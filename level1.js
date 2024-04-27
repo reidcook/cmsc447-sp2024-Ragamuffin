@@ -111,7 +111,7 @@ class level1 extends Phaser.Scene {
       jump = this.input.keyboard.addKey("space", true, false);
       clock = this.plugins.get("rexclockplugin").add(this, { timeScale: 1 });
       clock.start();
-      player.anims.play("run", true);
+      player.anims.play("run"+this.color, true);
       scoreText = this.add
         .text(30, 20, "0", { fill: "#0f0" })
         .setScrollFactor(0);
@@ -152,8 +152,8 @@ class level1 extends Phaser.Scene {
           player.setVelocityY(-330);
         } 
         else if (dash.isDown && !player.body.onFloor() && dashRefresh) {
-          player.anims.play("dash").once('animationcomplete', () => {
-              player.anims.play("run");
+          player.anims.play("dash"+this.color).once('animationcomplete', () => {
+              player.anims.play("run"+this.color);
           });
           player.setVelocityY(0);
           player.setVelocityX(500);

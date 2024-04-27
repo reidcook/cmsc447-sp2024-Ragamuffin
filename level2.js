@@ -124,10 +124,9 @@ class level2 extends Phaser.Scene {
         clock = this.plugins.get("rexclockplugin").add(this, { timeScale: 1 });
         clock.start();
         player.anims.play("run"+this.color, true);
-        elapsedTimeText = this.add
+        scoreText = this.add
             .text(30, 20, "0", { fill: "#0f0" })
             .setScrollFactor(0);
-
     }
 
     collectStar(player, star) {
@@ -136,7 +135,6 @@ class level2 extends Phaser.Scene {
     }
 
     update() {
-        elapsedTimeText.setText(Math.floor(clock.now / 1000));
         if(player.x > 3750 && player.y < 150){
             music.stop();
             this.scene.start("leaderboard2", {color: this.color});
