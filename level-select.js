@@ -51,7 +51,7 @@ class levelselect extends Phaser.Scene
 
     startGame3()
     {
-        this.scene.start("level3"), {color: this.color};
+        this.scene.start("level3", {color: this.color});
     }
     enterShop()
     {

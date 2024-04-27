@@ -9,6 +9,7 @@ class level1 extends Phaser.Scene {
     
   }
   create() {
+    console.log("Color: "+this.color);
     function spawnAsteroids() {
       /*var pX = player.x + 400;
       var pY = player.y - 100;
@@ -44,7 +45,7 @@ class level1 extends Phaser.Scene {
     this.add.image(4160, 180, "sky");
     platform = this.physics.add.staticGroup();
     portal = this.physics.add.staticGroup();
-    player = this.physics.add.sprite(100, 250, "player");
+    player = this.physics.add.sprite(100, 250, "player"+this.color);
 
     this.physics.add.collider(player, platform);
 
@@ -88,7 +89,7 @@ class level1 extends Phaser.Scene {
     jump = this.input.keyboard.addKey("space", true, false);
     clock = this.plugins.get("rexclockplugin").add(this, { timeScale: 1 });
     clock.start();
-    player.anims.play("run", true);
+    player.anims.play("run"+this.color, true);
     elapsedTimeText = this.add
       .text(30, 20, "0", { fill: "#0f0" })
       .setScrollFactor(0);
@@ -126,8 +127,8 @@ class level1 extends Phaser.Scene {
         player.setVelocityY(-330);
       } 
       else if (dash.isDown && !player.body.onFloor() && dashRefresh) {
-        player.anims.play("dash").once('animationcomplete', () => {
-            player.anims.play("run");
+        player.anims.play("dash"+this.color).once('animationcomplete', () => {
+            player.anims.play("run"+this.color);
          });
         player.setVelocityY(0);
         player.setVelocityX(500);

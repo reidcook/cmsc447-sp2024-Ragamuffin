@@ -9,6 +9,7 @@ class level3 extends Phaser.Scene {
 
     }
     create() {
+        console.log("Color: "+this.color);
         function playerHit(player, asteroid) {
             music.stop();
             this.scene.restart();
@@ -29,7 +30,7 @@ class level3 extends Phaser.Scene {
         this.add.image(3520, 180, "sky");
         platform = this.physics.add.staticGroup();
         portal = this.physics.add.staticGroup();
-        player = this.physics.add.sprite(100, 250, "player");
+        player = this.physics.add.sprite(100, 250, "player"+this.color);
 
         this.physics.add.collider(player, platform);
 
@@ -70,7 +71,7 @@ class level3 extends Phaser.Scene {
         jump = this.input.keyboard.addKey("space", true, false);
         flip = this.input.keyboard.addKey("up", true, false); // Add flip key
         clock = this.time.addEvent({ delay: 500, callback: () => { canFlip = true; }, callbackScope: this, loop: true }); // Add timer for cooldown
-        player.anims.play("run", true);
+        player.anims.play("run"+this.color, true);
         elapsedTimeText = this.add
             .text(30, 20, "0", { fill: "#0f0" })
             .setScrollFactor(0);
@@ -96,7 +97,7 @@ class level3 extends Phaser.Scene {
         }
 
         if (player.body.onFloor()) {
-            player.anims.play("run", true);
+            player.anims.play("run"+this.color, true);
         }
 
         if (flip.isDown && canFlip) { // If up arrow key is pressed and flip is allowed by cooldown

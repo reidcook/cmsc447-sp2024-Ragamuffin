@@ -7,11 +7,27 @@ class login extends Phaser.Scene {
         this.load.html("login", "loginform.html");
         this.load.image('sky', 'assets/background.png');
         this.load.image('portal', 'assets/portal.png');
-        this.load.spritesheet("player", "assets/playerSheet.png", {
+        this.load.spritesheet("playerRed", "assets/playerSheet.png", {
             frameWidth: 32,
             frameHeight: 32,
           });
-        this.load.spritesheet("player", "assets/playerSheet.png", {
+          this.load.spritesheet("playerBlue", "assets/playerSheetBlue.png", {
+            frameWidth: 32,
+            frameHeight: 32,
+          });
+          this.load.spritesheet("playerGalaxy", "assets/playerSheetGalaxy.png", {
+            frameWidth: 32,
+            frameHeight: 32,
+          });
+          this.load.spritesheet("playerGreen", "assets/playerSheetGreen.png", {
+            frameWidth: 32,
+            frameHeight: 32,
+          });
+          this.load.spritesheet("playerParody", "assets/playerSheetParody.png", {
+            frameWidth: 32,
+            frameHeight: 32,
+          });
+          this.load.spritesheet("playerYellow", "assets/playerSheetYellow.png", {
             frameWidth: 32,
             frameHeight: 32,
           });
@@ -31,27 +47,127 @@ class login extends Phaser.Scene {
         );
         this.load.image('dashUI', 'assets/astro-air-dash-scaled.gif');
         this.load.image('pogoUI', 'assets/astro-pogo-scaled.png');
+        this.load.image('blueUI', 'assets/astro-air-dash-blue-scaled.gif')
+        this.load.image('galaxyUI', 'assets/astro-air-dash-galaxy-scaled.gif')
+        this.load.image('greenUI', 'assets/astro-air-dash-green-scaled.gif')
+        this.load.image('parodyUI', 'assets/astro-air-dash-parody-scaled.gif')
+        this.load.image('yellowUI', 'assets/astro-air-dash-yellow-scaled.gif')
     }
     create()
     {
     this.anims.create({
-      key: "run",
-      frames: this.anims.generateFrameNumbers("player", { start: 2, end: 5 }),
+      key: "runRed",
+      frames: this.anims.generateFrameNumbers("playerRed", { start: 2, end: 5 }),
       frameRate: 10,
       repeat: -1,
     });
     this.anims.create({
-        key: "dash",
-        frames: this.anims.generateFrameNumbers("player", { start: 0, end: 1 }),
+        key: "dashRed",
+        frames: this.anims.generateFrameNumbers("playerRed", { start: 0, end: 1 }),
         frameRate: 25,
         repeat: 2,
       });
       this.anims.create({
-        key: "bounce",
-        frames: this.anims.generateFrameNumbers("player", { start: 6, end: 6 }),
+        key: "bounceRed",
+        frames: this.anims.generateFrameNumbers("playerRed", { start: 6, end: 6 }),
         frameRate: 25,
         repeat: -1,
       });
+
+      this.anims.create({
+        key: "runBlue",
+        frames: this.anims.generateFrameNumbers("playerBlue", { start: 3, end: 6 }),
+        frameRate: 10,
+        repeat: -1,
+      });
+      this.anims.create({
+          key: "dashBlue",
+          frames: this.anims.generateFrameNumbers("playerBlue", { start: 0, end: 1 }),
+          frameRate: 25,
+          repeat: 2,
+        });
+        this.anims.create({
+          key: "bounceBlue",
+          frames: this.anims.generateFrameNumbers("playerBlue", { start: 2, end: 2 }),
+          frameRate: 25,
+          repeat: -1,
+        });
+
+        this.anims.create({
+            key: "runGalaxy",
+            frames: this.anims.generateFrameNumbers("playerGalaxy", { start: 3, end: 6 }),
+            frameRate: 10,
+            repeat: -1,
+          });
+          this.anims.create({
+              key: "dashGalaxy",
+              frames: this.anims.generateFrameNumbers("playerGalaxy", { start: 0, end: 1 }),
+              frameRate: 25,
+              repeat: 2,
+            });
+            this.anims.create({
+              key: "bounceGalaxy",
+              frames: this.anims.generateFrameNumbers("playerGalaxy", { start: 2, end: 2 }),
+              frameRate: 25,
+              repeat: -1,
+            });
+
+            this.anims.create({
+                key: "runParody",
+                frames: this.anims.generateFrameNumbers("playerParody", { start: 3, end: 6 }),
+                frameRate: 10,
+                repeat: -1,
+              });
+              this.anims.create({
+                  key: "dashParody",
+                  frames: this.anims.generateFrameNumbers("playerParody", { start: 0, end: 1 }),
+                  frameRate: 25,
+                  repeat: 2,
+                });
+                this.anims.create({
+                  key: "bounceParody",
+                  frames: this.anims.generateFrameNumbers("playerParody", { start: 2, end: 2 }),
+                  frameRate: 25,
+                  repeat: -1,
+                });
+
+                this.anims.create({
+                    key: "runYellow",
+                    frames: this.anims.generateFrameNumbers("playerYellow", { start: 3, end: 6 }),
+                    frameRate: 10,
+                    repeat: -1,
+                  });
+                  this.anims.create({
+                      key: "dashYellow",
+                      frames: this.anims.generateFrameNumbers("playerYellow", { start: 0, end: 1 }),
+                      frameRate: 25,
+                      repeat: 2,
+                    });
+                    this.anims.create({
+                      key: "bounceYellow",
+                      frames: this.anims.generateFrameNumbers("playerYellow", { start: 2, end: 2 }),
+                      frameRate: 25,
+                      repeat: -1,
+                    });
+
+                    this.anims.create({
+                        key: "runGreen",
+                        frames: this.anims.generateFrameNumbers("playerGreen", { start: 1, end: 3 }),
+                        frameRate: 10,
+                        repeat: -1,
+                      });
+                      this.anims.create({
+                          key: "dashGreen",
+                          frames: this.anims.generateFrameNumbers("playerGreen", { start: 5, end: 6 }),
+                          frameRate: 25,
+                          repeat: 2,
+                        });
+                        this.anims.create({
+                          key: "bounceGreen",
+                          frames: this.anims.generateFrameNumbers("playerGreen", { start: 0, end: 0 }),
+                          frameRate: 25,
+                          repeat: -1,
+                        });
         this.add.image(320,180,'sky');
         
         const loginForm = this.add.dom(310, 174).createFromCache("login");
@@ -103,7 +219,7 @@ class login extends Phaser.Scene {
         })
         .then(data => {
             console.log(data);
-            this.scene.start("levelselect", { color: "red" });
+            this.scene.start("levelselect", { color: "Red" });
         })
         .catch(error => {
             console.error(error.message);
