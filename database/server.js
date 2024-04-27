@@ -23,51 +23,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Validation and Sanitization for Registration
-const userValidationRules = [
-    body('username').trim().isLength({ min: 3 }).withMessage('Username must be at least 3 characters long'),
-    body('password').isStrongPassword({
-        minLength: 8,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 1
-    }).withMessage('Password must be stronger (at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a symbol)'),
-    body('username').custom(async username => {
-        const user = await new Promise((resolve, reject) => {
-            db.get('SELECT username FROM users WHERE username = ?', [username], (err, row) => {
-                if (err) reject(err);
-                resolve(row);
-            });
-        });
-        if (user) {
-            return Promise.reject('Username already in use');
-        }
-    })
-];
-
-// testing user registration endpoint
-app.post('/userRegistrationTest', userValidationRules, async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { username, password } = req.body;
-    
-    try {
-        const hashPassword = await bcrypt.hash(password, 10);
-        db.run(`INSERT INTO users (username, password) VALUES (?, ?)`, [username, hashPassword], function(err) {
-            if (err) {
-                return res.status(400).json({ error: err.message });
-            }
-            res.json({ message: 'User created', userId: this.lastID });
-        });
-    } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
 // Endpoint to add a new user with asynchronous password hashing
 app.post('/user', async (req, res) => {
     const { username, password } = req.body;
@@ -111,7 +66,7 @@ app.get('/leaderboard', (req, res) => {
 
 // Endpoint to get level 1 scores
 app.get('/leaderboard/level1', (req, res) => {
-    db.all(`SELECT username, level_1_score FROM users ORDER BY level_1_score DESC LIMIT 10`, [], (err, rows) => {
+    db.all(`SELECT username, level_1_score FROM users ORDER BY level_1_score DESC LIMIT 5`, [], (err, rows) => {
         if (err) {
             return res.status(400).json({ error: err.message });
         }
@@ -119,6 +74,15 @@ app.get('/leaderboard/level1', (req, res) => {
     });
 });
 
+// Endpoint to get level 2 scores
+app.get('/leaderboard/level2', (req, res) => {
+    db.all(`SELECT username, level_2_score FROM users ORDER BY level_2_score DESC LIMIT 5`, [], (err, rows) => {
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
 
 
 // Login endpoint
