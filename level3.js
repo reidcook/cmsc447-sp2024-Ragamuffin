@@ -9,7 +9,6 @@ class level3 extends Phaser.Scene {
 
     }
     create() {
-        console.log("Color: "+this.color);
         function playerHit(player, asteroid) {
             music.stop();
             this.scene.restart();

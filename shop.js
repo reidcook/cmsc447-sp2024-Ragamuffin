@@ -10,7 +10,7 @@ class shop extends Phaser.Scene{
     }
     create(){
         this.add.image(320,180,'sky');
-        this.add.text(300, 25, 'Shop', {fill: '#0f0'})
+        this.add.text(270, 25, 'Customize', {fill: '#0f0'})
         const redSelect = this.add.image(115,130,'dashUI').setScale(0.75,0.75);
         const galaxySelect = this.add.image(320,130,'galaxyUI').setScale(0.75,0.75);
         const greenSelect = this.add.image(505,130,'greenUI').setScale(0.75,0.75);

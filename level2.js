@@ -9,7 +9,6 @@ class level2 extends Phaser.Scene {
 
     }
     create() {
-        console.log("Color: "+this.color);
         /*
         function spawnAsteroids() {
           var pX = player.x + 400;

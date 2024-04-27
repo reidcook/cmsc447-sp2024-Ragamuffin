@@ -26,11 +26,11 @@ class levelselect extends Phaser.Scene
         level3Start.setInteractive();
         level3Start.on('pointerdown', () => { this.startGame3() });
         this.add.text(250, 25, 'Select Level', {fill: '#0f0'})
-        const shopButton = this.add.text(550, 25, 'Shop', {fill: '#0f0'})
+        const shopButton = this.add.text(520, 25, 'Customize', {fill: '#0f0'})
         this.add.text(80, 80, 'Level 1', {fill: '#0f0'})
-        this.add.text(80, 300, 'Dash (\u2192)', {fill: '#0f0'})
+        this.add.text(70, 300, 'Dash (\u2192)', {fill: '#0f0'})
         this.add.text(275, 80, 'Level 2', {fill: '#0f0'})
-        this.add.text(285, 300, 'Bounce (\u2193)', {fill: '#0f0'})
+        this.add.text(275, 300, 'Bounce (\u2193)', {fill: '#0f0'})
         this.add.text(470, 80, 'Level 3', {fill: '#0f0'})
         this.add.text(440, 300, 'Gravity Flip (\u2191)', {fill: '#0f0'})
 
