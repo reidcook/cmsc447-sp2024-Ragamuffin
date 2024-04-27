@@ -11,14 +11,12 @@ class shop extends Phaser.Scene{
     create(){
         this.add.image(320,180,'sky');
         this.add.text(300, 25, 'Shop', {fill: '#0f0'})
-        this.add.text(50, 25, 'Money: ' + this.totalMoney + " Coins", {fill: '#0f0'})
-        const redSelect = this.add.image(115,200,'dashUI').setScale(0.75,0.75);
-        const galaxySelect = this.add.image(230,200,'galaxyUI').setScale(0.75,0.75);
-        const greenSelect = this.add.image(345,200,'greenUI').setScale(0.75,0.75);
-        const parodySelect = this.add.image(460,200,'parodyUI').setScale(0.75,0.75);
-        const yellowSelect = this.add.image(575,200,'yellowUI').setScale(0.75,0.75);
-        const blueSelect = this.add.image(690,200,'blueUI').setScale(0.75,0.75);
-        this.add.text(60, 280, 'Select', {fill: '#0f0'})
+        const redSelect = this.add.image(115,130,'dashUI').setScale(0.75,0.75);
+        const galaxySelect = this.add.image(320,130,'galaxyUI').setScale(0.75,0.75);
+        const greenSelect = this.add.image(505,130,'greenUI').setScale(0.75,0.75);
+        const parodySelect = this.add.image(115,280,'parodyUI').setScale(0.75,0.75);
+        const yellowSelect = this.add.image(320,280,'yellowUI').setScale(0.75,0.75);
+        const blueSelect = this.add.image(505,280,'blueUI').setScale(0.75,0.75);
         redSelect.setInteractive();
         blueSelect.setInteractive();
         galaxySelect.setInteractive();

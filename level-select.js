@@ -26,7 +26,6 @@ class levelselect extends Phaser.Scene
         level3Start.setInteractive();
         level3Start.on('pointerdown', () => { this.startGame3() });
         this.add.text(250, 25, 'Select Level', {fill: '#0f0'})
-        this.add.text(40, 25, 'Money: ' + this.totalMoney + " Coins", {fill: '#0f0'})
         const shopButton = this.add.text(550, 25, 'Shop', {fill: '#0f0'})
         this.add.text(80, 80, 'Level 1', {fill: '#0f0'})
         this.add.text(80, 300, 'Dash (\u2192)', {fill: '#0f0'})
