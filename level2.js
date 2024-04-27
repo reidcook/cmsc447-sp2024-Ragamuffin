@@ -136,16 +136,10 @@ class level2 extends Phaser.Scene {
     }
 
     update() {
-<<<<<<< HEAD
-        scoreText.setText(Math.floor(clock.now / 1000));
-        if(player.x > 3750 && player.y < 100){
-            this.scene.start("levelselect");
-=======
         elapsedTimeText.setText(Math.floor(clock.now / 1000));
         if(player.x > 3750 && player.y < 150){
             music.stop();
             this.scene.start("leaderboard2", {color: this.color});
->>>>>>> 626c585fbe61d38035fd82560e98063f5bdf9e6e
         }
         if (player.y > 360) {
             music.stop();
