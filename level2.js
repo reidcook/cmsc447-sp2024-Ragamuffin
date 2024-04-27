@@ -55,8 +55,25 @@ class level2 extends Phaser.Scene {
         const map = this.make.tilemap({ key: 'level2', tileWidth: 16, tileHeight: 16 });
         const tileset = map.addTilesetImage('moon-tileset', 'tiles');
         const tileset2 = map.addTilesetImage('spike-tileset', 'spiketiles');
+        const tileset3 = map.addTilesetImage('star-tileset', 'startiles');
         const floor = map.createLayer("Ground", tileset, 0, 0);
         const spikes = map.createLayer("Spike", tileset2, 0, 0);
+        const stars = map.createLayer("Star", tileset3, 0, 0);
+        stars.setCollision(1); // this adds new spike collision
+        stars.setCollisionByExclusion([-1]);
+        stars.forEachTile(tile => {
+          // Check if the tile contains a star (indexed by 1)
+          if (tile.index !== -1) {      
+            let starCollider = this.add.circle(tile.pixelX, tile.pixelY, 8);
+            this.physics.add.existing(starCollider, true);
+            // Set up overlap detection between the player and the collider
+            this.physics.add.overlap(player, starCollider, (player, collider) => {
+              // update the score and destroy the collider
+              this.collectStar(player, collider);
+              tile.alpha = 0;
+            }, null, this);
+          }
+        });
         spikes.setCollision(1); // this adds new spike collision
         floor.setCollisionBetween(0, 39);
         spikes.setCollisionByExclusion([-1]);
@@ -103,13 +120,19 @@ class level2 extends Phaser.Scene {
         clock = this.plugins.get("rexclockplugin").add(this, { timeScale: 1 });
         clock.start();
         player.anims.play("run", true);
-        elapsedTimeText = this.add
+        scoreText = this.add
             .text(30, 20, "0", { fill: "#0f0" })
             .setScrollFactor(0);
 
     }
+
+    collectStar(player, star) {
+        star.destroy();
+        scoreText.setText(parseInt(scoreText.text) + 1);
+    }
+
     update() {
-        elapsedTimeText.setText(Math.floor(clock.now / 1000));
+        scoreText.setText(Math.floor(clock.now / 1000));
         if(player.x > 3750 && player.y < 100){
             this.scene.start("levelselect");
         }
@@ -162,4 +185,4 @@ var jump;
 var bounce;
 var isBouncing;
 var music;
-var elapsedTimeText;
+var scoreText;

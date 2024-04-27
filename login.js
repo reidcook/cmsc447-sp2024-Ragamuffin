@@ -17,9 +17,10 @@ class login extends Phaser.Scene {
           });
         this.load.image("tiles", 'assets/moon-tileset.png');
         this.load.image("spiketiles", 'assets/spike.png');
-        this.load.tilemapTiledJSON('level1','assets/Level1REAL.json');
-        this.load.tilemapTiledJSON('level2','assets/level2.json');
-        this.load.tilemapTiledJSON('level3','assets/level3.json');
+        this.load.image("startiles", 'assets/yellowStar.png');
+        this.load.tilemapTiledJSON('level1','assets/Level1stars.json');
+        this.load.tilemapTiledJSON('level2','assets/level2stars.json');
+        this.load.tilemapTiledJSON('level3','assets/level3stars.json');
         this.load.image("asteroid", "assets/asteroid.png");
         this.load.audio("music", ["assets/level-1.ogg"]);
         this.load.audio("music2", ["assets/level-2.ogg"]);

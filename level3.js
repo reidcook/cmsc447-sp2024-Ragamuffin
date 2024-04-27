@@ -29,13 +29,30 @@ class level3 extends Phaser.Scene {
 
         this.physics.add.collider(player, platform);
 
-        const map = this.make.tilemap({ key: 'level3', tileWidth: 16, tileHeight: 16 });
+        const map = this.make.tilemap({key: 'level3', tileWidth: 16, tileHeight: 16});
         const tileset = map.addTilesetImage('moon-tileset', 'tiles');
         const tileset2 = map.addTilesetImage('spike-tileset', 'spiketiles');
+        const tileset3 = map.addTilesetImage('star-tileset', 'startiles');
         const floor = map.createLayer("Ground", tileset, 0, 0);
         const spikes = map.createLayer("Spike", tileset2, 0, 0);
+        const stars = map.createLayer("Star", tileset3, 0, 0);
+        stars.setCollision(1); // this adds new spike collision
+        stars.setCollisionByExclusion([-1]);
+        stars.forEachTile(tile => {
+          // Check if the tile contains a star (indexed by 1)
+          if (tile.index !== -1) {      
+            let starCollider = this.add.circle(tile.pixelX, tile.pixelY, 8);
+            this.physics.add.existing(starCollider, true);
+            // Set up overlap detection between the player and the collider
+            this.physics.add.overlap(player, starCollider, (player, collider) => {
+              // update the score and destroy the collider
+              this.collectStar(player, collider);
+              tile.alpha = 0;
+            }, null, this);
+          }
+        });
         spikes.setCollision(1); // this adds new spike collision
-        floor.setCollisionBetween(0, 39);
+        floor.setCollisionBetween(0,39);
         spikes.setCollisionByExclusion([-1]);
         portal.create(3750, 260, 'portal').setScale(0.15, 0.25).refreshBody();
         this.physics.add.collider(player, floor);
@@ -67,13 +84,18 @@ class level3 extends Phaser.Scene {
         flip = this.input.keyboard.addKey("up", true, false); // Add flip key
         clock = this.time.addEvent({ delay: 500, callback: () => { canFlip = true; }, callbackScope: this, loop: true }); // Add timer for cooldown
         player.anims.play("run", true);
-        elapsedTimeText = this.add
+        scoreText = this.add
             .text(30, 20, "0", { fill: "#0f0" })
             .setScrollFactor(0);
 
     }
+
+    collectStar(player, star) {
+        star.destroy();
+        scoreText.setText(parseInt(scoreText.text) + 1);
+    }
+
     update() {
-        elapsedTimeText.setText(Math.floor(clock.now / 1000));
         if(player.x > 3750){
             this.scene.add("levelselect")
         }
@@ -86,8 +108,12 @@ class level3 extends Phaser.Scene {
             this.scene.restart();
         }
 
-        if (jump.isDown && player.body.onFloor()) {
-            player.setVelocityY(-330);
+        if (jump.isDown) {
+            if (player.body.gravity.y < 0 && player.body.velocity.y == 0) {
+                player.setVelocityY(240);
+            } else if (player.body.onFloor()) {
+                player.setVelocityY(-330);
+            }
         }
 
         if (player.body.onFloor()) {
@@ -112,5 +138,5 @@ var portal;
 var jump;
 var flip;
 var music;
-var elapsedTimeText;
+var scoreText;
 var canFlip = true; 
