@@ -2,6 +2,9 @@ class level2 extends Phaser.Scene {
     constructor() {
         super("level2");
     }
+    init(data){
+        this.color = data.color;
+    }
     preload() {
 
     }
@@ -29,7 +32,7 @@ class level2 extends Phaser.Scene {
             if (!isBouncing || spike.body.blocked.up)
             {
                 music.stop();
-                this.scene.restart();
+                this.scene.start("leaderboard2", {color: this.color});
             }
         }
 
@@ -88,11 +91,11 @@ class level2 extends Phaser.Scene {
             }
         }); // here is new spike collision may remove
 
-        this.physics.add.collider(player, portal, () => {
+        /*this.physics.add.collider(player, portal, () => {
             //this.scene.remove("level2");
             //this.scene.start("level3");
             this.scene.start("levelselect");
-        });
+        });*/
 
         this.physics.add.collider(player, partialCollisions, playerHitSpike, null, this);
         /*
@@ -132,17 +135,24 @@ class level2 extends Phaser.Scene {
     }
 
     update() {
+<<<<<<< HEAD
         scoreText.setText(Math.floor(clock.now / 1000));
         if(player.x > 3750 && player.y < 100){
             this.scene.start("levelselect");
+=======
+        elapsedTimeText.setText(Math.floor(clock.now / 1000));
+        if(player.x > 3750 && player.y < 150){
+            music.stop();
+            this.scene.start("leaderboard2", {color: this.color});
+>>>>>>> 626c585fbe61d38035fd82560e98063f5bdf9e6e
         }
         if (player.y > 360) {
             music.stop();
-            this.scene.restart();
+            this.scene.start("leaderboard2", {color: this.color});
         }
         if (player.body.velocity.x == 0) {
             music.stop();
-            this.scene.restart();
+            this.scene.start("leaderboard2", {color: this.color});
         }
 
         if (jump.isDown && player.body.onFloor()) {

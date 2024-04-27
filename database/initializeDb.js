@@ -3,9 +3,10 @@ const {open} = require('sqlite');
 const bcrypt = require('bcrypt');
 
 (async () => {
+    let db = null;
     try {
         // Open the database
-        const db = await open({
+        db = await open({
             filename: './myGameDB.db',
             driver: sqlite3.Database
         });
@@ -17,12 +18,22 @@ const bcrypt = require('bcrypt');
             username TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
             level INTEGER DEFAULT 1,
-            scores INTEGER DEFAULT 0
+            level_1_score INTEGER DEFAULT 0,
+            level_2_score INTEGER DEFAULT 0,
+            level_3_score INTEGER DEFAULT 0,
+            total_score INTEGER DEFAULT 0,
+            star_count INTEGER DEFAULT 0
         )`);
         console.log('Users table is ready.');
 
     } catch (err) {
-        console.error(err.message);
+        console.error('Database initialization failed:', err.message);
+    } finally {
+        if (db) {
+            // Ensure the database connection is closed even if an error occurs
+            await db.close();
+            console.log('Database connection closed.');
+        }
     }
 })();
 

@@ -60,25 +60,63 @@ class login extends Phaser.Scene {
         
         const formElement = loginForm.node;
 
+        this.errorText = this.add.text(this.scale.width / 2, 50, ' ', {
+            fill: '#ff0000',
+            fontSize: '16px',
+            fontFamily: 'Arial',
+            fontStyle: 'bold',
+            align: 'center' // Center-align the text
+        }).setOrigin(0.5, 0); // Set the origin to the middle of the text for horizontal centering
         
+
         formElement.addEventListener('submit', (event) => {
             event.preventDefault(); 
 
             const username = formElement.querySelector('#username').value;
             const password = formElement.querySelector('#password').value;
 
-            const createAcc = formElement.querySelector('#create-account').checked;
-            
-            if (createAcc) {
-                this.registerUser(username, password);
-            } else {
-                this.registerUser(username, password);
+            if (this.validateCredentials(username, password)) {
+                const createAcc = formElement.querySelector('#create-account').checked;
+                if (createAcc) {
+                    this.registerUser(username, password);
+                } else {
+                    this.loginUser(username, password, this.errorText);
+                }
             }
         });
+    }
 
+    validateCredentials(username, password) {
+        if (username.length < 3) {
+            this.errorText.setText("Username must be at least 3 characters long.");
+            return false;
+        }
+        if (password.length < 8) {
+            this.errorText.setText("Password must be at least 8 characters long.");
+            return false;
+        }
+        if (!/[a-z]/.test(password)) {
+            this.errorText.setText("Password must contain at least one lowercase letter.");
+            return false;
+        }
+        if (!/[A-Z]/.test(password)) {
+            this.errorText.setText("Password must contain at least one uppercase letter.");
+            return false;
+        }
+        if (!/[0-9]/.test(password)) {
+            this.errorText.setText("Password must contain at least one number.");
+            return false;
+        }
+        if (!/[^a-zA-Z0-9]/.test(password)) {
+            this.errorText.setText("Password must contain at least one symbol.");
+            return false;
+        }
+        return true;
     }
 
     registerUser(username, password) {
+        const errorText = this.errorText;
+    
         fetch('http://localhost:3000/user', {
             method: 'POST',
             headers: {
@@ -89,12 +127,48 @@ class login extends Phaser.Scene {
                 password: password
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.status === 400 ? 'Username already in use' : 'Server error');
+            }
+            return response.json();
+        })
         .then(data => {
             console.log(data);
-            this.scene.start("levelselect");
+            this.scene.start("levelselect", { color: "red" });
+        })
+        .catch(error => {
+            console.error(error.message);
+            errorText.setText(error.message);
         });
-        
+    }
+    
+
+    loginUser(username, password, errorText) {
+        fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Invalid username or password');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); 
+            this.scene.start("levelselect", { color: "red" });
+        })
+        .catch(error => {
+            console.error(error.message);
+            errorText.setText('Invalid login! Try Again');
+        });
     }
     
 }

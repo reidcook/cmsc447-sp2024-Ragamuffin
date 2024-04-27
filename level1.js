@@ -1,49 +1,50 @@
-  class level1 extends Phaser.Scene {
-    constructor() {
-      super("level1");
+class level1 extends Phaser.Scene {
+  constructor() {
+    super("level1");
+  }
+  init(data){
+    this.color = data.color;
+  }
+  preload() {
+    
+  }
+  create() {
+    function spawnAsteroids() {
+      /*var pX = player.x + 400;
+      var pY = player.y - 100;
+      var asteroid = asteroids.create(pX, pY, "asteroid");
+      asteroid.setScale(0.05);
+      asteroid.body.velocity.x = -40;
+      asteroid.body.velocity.y = 0;
+      asteroid.body.setAllowGravity(false);
+      asteroid.refreshBody();*/
     }
-    preload() {
-      
-    }
-    create() {
-      /*
-      function spawnAsteroids() {
-        var pX = player.x + 400;
-        var pY = player.y - 100;
-        var asteroid = asteroids.create(pX, pY, "asteroid");
-        asteroid.setScale(0.05);
-        asteroid.body.velocity.x = -40;
-        asteroid.body.velocity.y = 0;
-        asteroid.body.setAllowGravity(false);
-        asteroid.refreshBody();
-      }
-      */
 
-      
-      function playerHit(player, asteroid) {
-        music.stop();
-        this.scene.restart();
-      }
-      
-      music = this.sound.add("music", { loop: true });
-      music.play();
-      this.add.image(320, 180, "sky");
-      this.add.image(640, 180, "sky");
-      this.add.image(960, 180, "sky");
-      this.add.image(1280, 180, "sky");
-      this.add.image(1600, 180, "sky");
-      this.add.image(1920, 180, "sky");
-      this.add.image(2240, 180, "sky");
-      this.add.image(2560, 180, "sky");
-      this.add.image(2880, 180, "sky");
-      this.add.image(3200, 180, "sky");
-      this.add.image(3520, 180, "sky");
-      this.add.image(3840, 180, "sky");
-      this.add.image(3520, 180, "sky");
-      this.add.image(4160, 180, "sky");
-      platform = this.physics.add.staticGroup();
-      portal = this.physics.add.staticGroup();
-      player = this.physics.add.sprite(100, 250, "player");
+    
+    function playerHit(player, asteroid) {
+      music.stop();
+      this.scene.start("leaderboard1", {color: this.color});
+    }
+    
+    music = this.sound.add("music", { loop: true });
+    music.play();
+    this.add.image(320, 180, "sky");
+    this.add.image(640, 180, "sky");
+    this.add.image(960, 180, "sky");
+    this.add.image(1280, 180, "sky");
+    this.add.image(1600, 180, "sky");
+    this.add.image(1920, 180, "sky");
+    this.add.image(2240, 180, "sky");
+    this.add.image(2560, 180, "sky");
+    this.add.image(2880, 180, "sky");
+    this.add.image(3200, 180, "sky");
+    this.add.image(3520, 180, "sky");
+    this.add.image(3840, 180, "sky");
+    this.add.image(3520, 180, "sky");
+    this.add.image(4160, 180, "sky");
+    platform = this.physics.add.staticGroup();
+    portal = this.physics.add.staticGroup();
+    player = this.physics.add.sprite(100, 250, "player");
 
       this.physics.add.collider(player, platform);
 
@@ -126,11 +127,12 @@
         this.scene.restart();
       }
       if (player.x > 3750){
-        this.scene.start("levelselect");
+        music.stop();
+        this.scene.start("leaderboard1", {color: this.color});
       }
       if(player.body.velocity.x == 0){
         music.stop();
-        this.scene.restart();
+        this.scene.start("leaderboard1", {color: this.color});
       }
       if (dashStart) {
         if (timer < 160) {

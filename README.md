@@ -8,6 +8,8 @@
 
     npm install sqlite3
 
+    npm install express-validator
+
 
 
 
