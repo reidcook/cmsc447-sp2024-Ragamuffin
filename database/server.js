@@ -144,6 +144,29 @@ app.patch('/user/score', (req, res) => {
     });
 });
 
+// Endpoint to update a user's total score
+app.patch('/user/total-score', (req, res) => {
+    const { username } = req.body;
+
+    db.get(`SELECT level_1_score, level_2_score, level_3_score FROM users WHERE username = ?`, [username], (err, user) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const total_score = user.level_1_score + user.level_2_score + user.level_3_score;
+        db.run(`UPDATE users SET total_score = ? WHERE username = ?`, [total_score, username], function(err) {
+            if (err) {
+                return res.status(400).json({ error: err.message });
+            }
+            res.json({ message: 'Total score updated', changes: this.changes });
+        });
+    });
+});
+
+
 app.get('/leaderboard', (req, res) => {
     db.all(`SELECT username, total_score FROM users ORDER BY total_score DESC LIMIT 10`, [], (err, rows) => {
         if (err) {
@@ -182,6 +205,17 @@ app.get('/leaderboard/level3', (req, res) => {
         res.json(rows);
     });
 });
+
+// Endpoint to get top 5 total scores
+app.get('/leaderboard/top', (req, res) => {
+    db.all(`SELECT username, total_score FROM users ORDER BY total_score DESC LIMIT 5`, [], (err, rows) => {
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
+
 
 // Login endpoint
 app.post('/login', async (req, res) => {

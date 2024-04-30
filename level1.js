@@ -130,6 +130,8 @@ class level1 extends Phaser.Scene {
         music.stop();
         const username = localStorage.getItem('username');
         sendScoreToServer(scoreText.text, username);
+        updateTotalScore(username);
+        sendTopScores();
         this.scene.start("leaderboard1", {color: this.color});
       }
       if(player.body.velocity.x == 0){
@@ -194,6 +196,87 @@ class level1 extends Phaser.Scene {
         console.error('Error updating level 1 score:', error);
         // Handle error if needed
     });
+}
+
+function updateTotalScore(username) {
+  fetch('http://localhost:3000/user/total-score', {
+      method: 'PATCH',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          username: username
+      })
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Failed to update total score');
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log('Total score updated successfully:', data);
+  })
+  .catch(error => {
+      console.error('Error updating total score:', error);
+  });
+}
+
+function sendTopScores() {
+  fetch('http://localhost:3000/leaderboard/top')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Failed to fetch top scores');
+          }
+          return response.json();
+      })
+      .then(data => {
+        
+          const topScoresData = data.map(entry => ({
+              name: entry.username,
+              score: entry.total_score
+          }));
+
+          const jsonData = {
+              "data": [
+                  {
+                      "Group": "Ragamuffin",
+                      "Title": "Top 5 Scores",
+                      "<1st Name>": topScoresData[0].name,
+                      "<1st Score>": topScoresData[0].score,
+                      "<2nd Name>": topScoresData[1].name,
+                      "<2nd Score>": topScoresData[1].score,
+                      "<3rd Name>": topScoresData[2].name,
+                      "<3rd Score>": topScoresData[2].score,
+                      "<4th Name>": topScoresData[3].name,
+                      "<4th Score>": topScoresData[3].score,
+                      "<5th Name>": topScoresData[4].name,
+                      "<5th Score>": topScoresData[4].score
+                  }
+              ]
+          };
+
+          
+          fetch('https://eope3o6d7z7e2cc.m.pipedream.net', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(jsonData)
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Failed to send top scores to the public API');
+              }
+              console.log('Top scores sent successfully to the public API');
+          })
+          .catch(error => {
+              console.error('Error sending top scores to the public API:', error);
+          });
+      })
+      .catch(error => {
+          console.error('Error fetching top scores from the server:', error);
+      });
 }
 
   
