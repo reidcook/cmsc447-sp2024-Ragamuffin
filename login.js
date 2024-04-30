@@ -251,6 +251,7 @@ class login extends Phaser.Scene {
         })
         .then(data => {
             console.log(data);
+            localStorage.setItem('username', username);
             this.scene.start("levelselect", { color: "Red" });
         })
         .catch(error => {
@@ -279,6 +280,7 @@ class login extends Phaser.Scene {
         })
         .then(data => {
             console.log(data); 
+            localStorage.setItem('username', username);
             this.scene.start("levelselect", { color: "Red" });
         })
         .catch(error => {

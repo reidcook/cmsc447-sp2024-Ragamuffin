@@ -41,6 +41,95 @@ app.post('/user', async (req, res) => {
     }
 });
 
+
+// Endpoint to update level 1 score
+app.post('/updateLevel1Score', async (req, res) => {
+    const { username, level1Score } = req.body;
+
+    try {
+        db.get(`SELECT level_1_score FROM users WHERE username = ?`, [username], async (err, user) => {
+            if (err) {
+                return res.status(500).json({ error: 'Database error' });
+            }
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            if (level1Score > user.level_1_score) {
+                db.run(`UPDATE users SET level_1_score = ? WHERE username = ?`, [level1Score, username], function(err) {
+                    if (err) {
+                        return res.status(500).json({ error: 'Database error' });
+                    }
+                    res.json({ message: 'Level 1 score updated successfully' });
+                });
+            } else {
+                res.json({ message: 'Level 1 score not updated' });
+            }
+        });
+    } catch (error) {
+        console.error('Error updating level 1 score:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Endpoint to update level 2 score
+app.post('/updateLevel2Score', async (req, res) => {
+    const { username, level2Score } = req.body;
+
+    try {
+        db.get(`SELECT level_2_score FROM users WHERE username = ?`, [username], async (err, user) => {
+            if (err) {
+                return res.status(500).json({ error: 'Database error' });
+            }
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            if (level2Score > user.level_2_score) {
+                db.run(`UPDATE users SET level_2_score = ? WHERE username = ?`, [level2Score, username], function(err) {
+                    if (err) {
+                        return res.status(500).json({ error: 'Database error' });
+                    }
+                    res.json({ message: 'Level 2 score updated successfully' });
+                });
+            } else {
+                res.json({ message: 'Level 2 score not updated' });
+            }
+        });
+    } catch (error) {
+        console.error('Error updating level 2 score:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Endpoint to update level 3 score
+app.post('/updateLevel3Score', async (req, res) => {
+    const { username, level3Score } = req.body;
+
+    try {
+        db.get(`SELECT level_3_score FROM users WHERE username = ?`, [username], async (err, user) => {
+            if (err) {
+                return res.status(500).json({ error: 'Database error' });
+            }
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            if (level3Score > user.level_3_score) {
+                db.run(`UPDATE users SET level_3_score = ? WHERE username = ?`, [level3Score, username], function(err) {
+                    if (err) {
+                        return res.status(500).json({ error: 'Database error' });
+                    }
+                    res.json({ message: 'Level 3 score updated successfully' });
+                });
+            } else {
+                res.json({ message: 'Level 3 score not updated' });
+            }
+        });
+    } catch (error) {
+        console.error('Error updating level 3 score:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 // Endpoint to update a user's score
 app.patch('/user/score', (req, res) => {
     const { username, level_1_score, level_2_score, level_3_score } = req.body;
@@ -84,6 +173,15 @@ app.get('/leaderboard/level2', (req, res) => {
     });
 });
 
+// Endpoint to get level 3 scores
+app.get('/leaderboard/level3', (req, res) => {
+    db.all(`SELECT username, level_3_score FROM users ORDER BY level_3_score DESC LIMIT 5`, [], (err, rows) => {
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+        res.json(rows);
+    });
+});
 
 // Login endpoint
 app.post('/login', async (req, res) => {

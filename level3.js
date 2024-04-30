@@ -11,7 +11,7 @@ class level3 extends Phaser.Scene {
     create() {
         function playerHit(player, asteroid) {
             music.stop();
-            this.scene.restart();
+            this.scene.start("leaderboard3", {color: this.color});
         }
 
         music = this.sound.add("music3", { loop: true });
@@ -101,15 +101,17 @@ class level3 extends Phaser.Scene {
     update() {
         if(player.x > 3750){
             music.stop();
-            this.scene.start("levelselect", {color: this.color})
+            const username = localStorage.getItem('username');
+            sendScoreToServer3(scoreText.text, username);
+            this.scene.start("leaderboard3", {color: this.color});
         }
         if (player.y > 360 || player.y < -280) {
             music.stop();
-            this.scene.restart();
+            this.scene.start("leaderboard3", {color: this.color});
         }
         if (player.body.velocity.x == 0) {
             music.stop();
-            this.scene.restart();
+            this.scene.start("leaderboard3", {color: this.color});
         }
 
         if (jump.isDown) {
@@ -132,6 +134,31 @@ class level3 extends Phaser.Scene {
             this.time.delayedCall(200, () => { canFlip = true; clock.paused = false; }); // Resume the timer after 0.5 seconds
         }
     }
+}
+
+function sendScoreToServer3(score, username) {
+    fetch('http://localhost:3000/updateLevel3Score', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            level3Score: score
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update level 3 score');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Level 3 score updated successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error updating level 3 score:', error);
+    });
 }
 
 var clock;

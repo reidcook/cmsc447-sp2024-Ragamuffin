@@ -124,10 +124,12 @@ class level1 extends Phaser.Scene {
     update(time, delta) {
       if (player.y > 360) {
         music.stop();
-        this.scene.restart();
+        this.scene.start("leaderboard1", {color: this.color});
       }
       if (player.x > 3750){
         music.stop();
+        const username = localStorage.getItem('username');
+        sendScoreToServer(scoreText.text, username);
         this.scene.start("leaderboard1", {color: this.color});
       }
       if(player.body.velocity.x == 0){
@@ -166,6 +168,35 @@ class level1 extends Phaser.Scene {
       }
     }
   }
+
+  function sendScoreToServer(score, username) {
+    fetch('http://localhost:3000/updateLevel1Score', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username,
+            level1Score: score
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to update level 1 score');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Level 1 score updated successfully:', data);
+        // Handle success if needed
+    })
+    .catch(error => {
+        console.error('Error updating level 1 score:', error);
+        // Handle error if needed
+    });
+}
+
+  
 
   var timer = 0;
   var clock;
