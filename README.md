@@ -13,7 +13,7 @@
 
 
 
-**To start the database navigate to the database folder then run:**
+**To start the database navigate to the database src folder then run:**
 
     node initializeDb.js
 
@@ -22,9 +22,11 @@
 
 
 
-**To test the database install:**
+**To test the database install the following dependencies:**
 
     npm install --save-dev jest
+    npm install --save-dev jest supertest
+
 
 
 
