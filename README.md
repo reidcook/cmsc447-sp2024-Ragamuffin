@@ -20,6 +20,22 @@
     node server.js
 
 
+
+
+**To test the database install:**
+
+    npm install --save-dev jest
+
+
+
+
+**To run the test run:**  
+
+    npm test
+
+
+
+
 **To run the game, open another terminal and run inside the root directory:**
 
     python3 -m http.server 8000
