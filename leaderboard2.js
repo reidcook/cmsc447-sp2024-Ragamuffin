@@ -25,6 +25,9 @@ class leaderboard2 extends Phaser.Scene {
             this.add.text(510, 295, 'Level\nSelect', { fontSize: '18px', fill: '#0f0' });
             restartButton.setInteractive();
             restartButton.on('pointerdown', () => {this.scene.start("level2", {color: this.color});});
+            this.input.keyboard.on('keydown-R', () => {
+                this.scene.start("level2", {color: this.color});
+            });
             levelButton.setInteractive();
             levelButton.on('pointerdown', () => {this.scene.start("levelselect", {color: this.color});});
             this.add.text(150, 50, 'Top Level 2 Scores', { fontSize: '32px', fill: '#0f0' });
