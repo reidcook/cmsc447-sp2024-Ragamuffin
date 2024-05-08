@@ -13,9 +13,7 @@
 
 
 
-**To start the database navigate to the database src folder then run:**
-
-    node initializeDb.js
+**To start the database server navigate to the database src folder then run:**
 
     node server.js
 
